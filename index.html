@@ -3,145 +3,799 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Furrytale Pet Supplies - Premium Export</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="i18n.js"></script>
+    <title>Furrytale - Premium Pet Supplies | Murui Technology</title>
+    <meta name="description" content="Furrytale by Murui Technology - Premium smart pet feeders, water fountains, pet food & treats. Direct from manufacturer with 8000m² factory, 300+ patents, global export.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .rtl { direction: rtl; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --brand: #E8652B;
+            --brand-dark: #C84F1A;
+            --brand-light: #FFF4EF;
+            --ink: #1A1A2E;
+            --ink-light: #4A4A6A;
+            --ink-muted: #8888A4;
+            --surface: #FAFAF8;
+            --white: #FFFFFF;
+            --border: #E8E8E0;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--ink);
+            background: var(--surface);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .rtl { direction: rtl; text-align: right; }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1280px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 2rem; height: 72px;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem; font-weight: 700;
+            color: var(--brand); text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--ink-light);
+            font-weight: 500; font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--brand); }
+        #langSelector {
+            padding: 6px 12px; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--white);
+            font-family: inherit; font-size: 0.85rem; color: var(--ink-light);
+            cursor: pointer;
+        }
+        .mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-toggle svg { width: 24px; height: 24px; stroke: var(--ink); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 50%, #3A2A20 100%);
+            min-height: 600px; display: flex; align-items: center;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: url('images/hero_banner.jpg') center/cover;
+            opacity: 0.25;
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 1280px; margin: 0 auto;
+            padding: 6rem 2rem; color: white;
+        }
+        .hero-badge {
+            display: inline-block; padding: 6px 16px;
+            background: rgba(232,101,43,0.2); border: 1px solid rgba(232,101,43,0.4);
+            border-radius: 100px; font-size: 0.8rem; font-weight: 600;
+            color: #FFB088; letter-spacing: 0.5px; margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5vw, 4rem);
+            line-height: 1.15; font-weight: 700;
+            max-width: 700px; margin-bottom: 1.5rem;
+        }
+        .hero p {
+            font-size: 1.15rem; color: rgba(255,255,255,0.75);
+            max-width: 520px; margin-bottom: 2.5rem; line-height: 1.7;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px; background: var(--brand);
+            color: white; border: none; border-radius: 100px;
+            font-family: inherit; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: all 0.25s; text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--brand-dark); transform: translateY(-1px); }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 32px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+            color: white; border-radius: 100px;
+            font-family: inherit; font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: all 0.25s; text-decoration: none;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--white); border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+        }
+        .stats-inner {
+            max-width: 1280px; margin: 0 auto; padding: 0 2rem;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: 2rem; font-weight: 700; color: var(--brand);
+            font-family: 'Playfair Display', serif;
+        }
+        .stat-item p { font-size: 0.85rem; color: var(--ink-muted); margin-top: 4px; }
+
+        /* ── SECTIONS ── */
+        .section {
+            max-width: 1280px; margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+        .section-header {
+            text-align: center; margin-bottom: 3.5rem;
+        }
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 700; color: var(--ink); margin-bottom: 0.75rem;
+        }
+        .section-header p {
+            color: var(--ink-muted); font-size: 1.05rem; max-width: 560px; margin: 0 auto;
+        }
+        .section-divider {
+            width: 48px; height: 3px; background: var(--brand);
+            border-radius: 2px; margin: 1rem auto 0;
+        }
+
+        /* ── CATEGORY TABS ── */
+        .cat-tabs {
+            display: flex; gap: 0.5rem; justify-content: center;
+            flex-wrap: wrap; margin-bottom: 3rem;
+        }
+        .cat-tab {
+            padding: 10px 24px; border-radius: 100px;
+            border: 1px solid var(--border); background: var(--white);
+            font-family: inherit; font-size: 0.9rem; font-weight: 500;
+            color: var(--ink-light); cursor: pointer; transition: all 0.2s;
+        }
+        .cat-tab:hover { border-color: var(--brand); color: var(--brand); }
+        .cat-tab.active {
+            background: var(--brand); color: white; border-color: var(--brand);
+        }
+
+        /* ── PRODUCT GRID ── */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            background: var(--white); border-radius: var(--radius);
+            border: 1px solid var(--border); overflow: hidden;
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+        .product-img {
+            height: 220px; background: #F5F5F0;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .product-body { padding: 1.25rem 1.5rem 1.5rem; }
+        .product-cat {
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--brand);
+        }
+        .product-name {
+            font-size: 1.1rem; font-weight: 700;
+            margin: 6px 0 12px; color: var(--ink);
+        }
+        .product-features {
+            list-style: none; display: flex; flex-wrap: wrap; gap: 6px;
+        }
+        .product-features li {
+            font-size: 0.75rem; padding: 4px 10px;
+            background: var(--brand-light); color: var(--brand-dark);
+            border-radius: 100px; font-weight: 500;
+        }
+        .product-specs {
+            margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem; color: var(--ink-muted); line-height: 1.8;
+        }
+
+        /* ── ABOUT / STRENGTH ── */
+        .about-bg { background: var(--white); }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4rem; align-items: center;
+        }
+        .about-img {
+            border-radius: var(--radius); overflow: hidden;
+            aspect-ratio: 16/10;
+        }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; }
+        .about-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; margin-bottom: 1rem;
+        }
+        .about-text p { color: var(--ink-light); margin-bottom: 1rem; }
+        .cert-list {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem;
+        }
+        .cert-badge {
+            padding: 6px 14px; background: #EEF7ED; color: #2D6A2E;
+            border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+        }
+
+        /* ── FOOD SHOWCASE ── */
+        .food-showcase {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+        .food-card {
+            background: var(--white); border-radius: var(--radius);
+            border: 1px solid var(--border); overflow: hidden;
+            transition: all 0.3s;
+        }
+        .food-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+        .food-img { height: 180px; overflow: hidden; background: #F5F5F0; }
+        .food-img img { width: 100%; height: 100%; object-fit: cover; }
+        .food-body { padding: 1.25rem; }
+        .food-body h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .food-body p { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6; }
+
+        /* ── CONTACT ── */
+        .contact-section {
+            background: linear-gradient(135deg, #1A1A2E, #2D2D4A);
+            color: white;
+        }
+        .contact-grid {
+            max-width: 1280px; margin: 0 auto; padding: 5rem 2rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+        }
+        .contact-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; margin-bottom: 1rem;
+        }
+        .contact-info p { color: rgba(255,255,255,0.65); margin-bottom: 2rem; font-size: 1.05rem; }
+        .contact-item {
+            display: flex; gap: 1rem; align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .contact-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(232,101,43,0.15);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-icon svg { width: 20px; height: 20px; stroke: var(--brand); fill: none; stroke-width: 2; }
+        .contact-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+        .contact-item p { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin: 0; }
+        .contact-form {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius); padding: 2.5rem;
+        }
+        .contact-form h3 { font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label {
+            display: block; font-size: 0.85rem; color: rgba(255,255,255,0.5);
+            margin-bottom: 6px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px 16px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-sm); color: white;
+            font-family: inherit; font-size: 0.95rem;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-submit {
+            width: 100%; padding: 14px;
+            background: var(--brand); color: white; border: none;
+            border-radius: 100px; font-family: inherit; font-weight: 600;
+            font-size: 1rem; cursor: pointer; transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+        .form-submit:hover { background: var(--brand-dark); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: #111122; color: rgba(255,255,255,0.4);
+            text-align: center; padding: 2rem;
+            font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .nav-links.open {
+                display: flex; flex-direction: column;
+                position: absolute; top: 72px; left: 0; right: 0;
+                background: var(--white); padding: 1.5rem 2rem;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-content { padding: 4rem 1.5rem; }
+            .section { padding: 3rem 1.5rem; }
+        }
+
+        /* ── ANIMATIONS ── */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-bold text-orange-600">Furrytale</span>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#" class="nav-home hover:text-orange-600 font-semibold" data-i18n="home">Home</a>
-                    <a href="#feeders" class="hover:text-orange-600 font-semibold" data-i18n="feeders">Smart Feeders</a>
-                    <a href="#fountains" class="hover:text-orange-600 font-semibold" data-i18n="fountains">Water Fountains</a>
-                    <a href="#food" class="hover:text-orange-600 font-semibold" data-i18n="food">Pet Food</a>
-                    <a href="#about" class="hover:text-orange-600 font-semibold" data-i18n="about">About</a>
-                    <a href="#contact" class="hover:text-orange-600 font-semibold" data-i18n="contact">Contact</a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <select id="langSelector" class="bg-gray-100 border-none text-sm rounded-md px-2 py-1 focus:ring-orange-500">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="ar">العربية</option>
-                    </select>
-                </div>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="logo">Furrytale</a>
+        <div class="nav-links" id="navLinks">
+            <a href="#products" data-i18n="products_nav">Products</a>
+            <a href="#food" data-i18n="food_nav">Pet Food</a>
+            <a href="#about" data-i18n="about_nav">About Us</a>
+            <a href="#contact" data-i18n="contact_nav">Contact</a>
+            <select id="langSelector">
+                <option value="en">English</option>
+                <option value="es">Espanol</option>
+                <option value="fr">Francais</option>
+                <option value="de">Deutsch</option>
+                <option value="ar">العربية</option>
+            </select>
+        </div>
+        <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" data-i18n="heroBadge">MURUI TECHNOLOGY CO., LTD.</div>
+        <h1 data-i18n="heroTitle">Design for What Pets Truly Want</h1>
+        <p data-i18n="heroSub">From smart feeders to premium nutrition — we manufacture innovative pet products trusted by brands worldwide. 8,000m&sup2; factory, 300+ patents, exported to 50+ countries.</p>
+        <div class="hero-actions">
+            <a href="#products" class="btn-primary" data-i18n="heroCTA">
+                <span>Explore Products</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#contact" class="btn-outline" data-i18n="heroContact">Contact Sales</a>
+        </div>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat-item">
+            <h3>8,000m&sup2;</h3>
+            <p data-i18n="stat1">Factory Floor Area</p>
+        </div>
+        <div class="stat-item">
+            <h3>300+</h3>
+            <p data-i18n="stat2">Patents & Certifications</p>
+        </div>
+        <div class="stat-item">
+            <h3>70K+</h3>
+            <p data-i18n="stat3">Monthly Production</p>
+        </div>
+        <div class="stat-item">
+            <h3>1,250</h3>
+            <p data-i18n="stat4">Team Members</p>
+        </div>
+    </div>
+</div>
+
+<!-- PRODUCTS SECTION -->
+<section class="section" id="products">
+    <div class="section-header">
+        <h2 data-i18n="productsTitle">Smart Pet Products</h2>
+        <p data-i18n="productsSub">Innovative design meets precision engineering. From automatic feeders to cordless water fountains.</p>
+        <div class="section-divider"></div>
+    </div>
+
+    <div class="cat-tabs" id="catTabs">
+        <button class="cat-tab active" data-cat="all" data-i18n="catAll">All Products</button>
+        <button class="cat-tab" data-cat="smart-feeder" data-i18n="catFeeders">Smart Feeders</button>
+        <button class="cat-tab" data-cat="wet-feeder" data-i18n="catWet">Wet Food Feeders</button>
+        <button class="cat-tab" data-cat="fountain" data-i18n="catFountains">Water Fountains</button>
+        <button class="cat-tab" data-cat="combo" data-i18n="catCombos">Combos</button>
+        <button class="cat-tab" data-cat="litter" data-i18n="catLitter">Cat Litter</button>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+</section>
+
+<!-- PET FOOD SECTION -->
+<section class="about-bg" id="food">
+    <div class="section" style="padding-top:5rem; padding-bottom:5rem;">
+        <div class="section-header">
+            <h2 data-i18n="foodTitle">Pet Food & Treats</h2>
+            <p data-i18n="foodSub">Annual output of 100,000 tons dried food and 30,000 tons wet food. BRC, IFS, HACCP certified.</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="food-showcase" id="foodGrid"></div>
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="section" id="about">
+    <div class="about-grid">
+        <div class="about-img fade-in">
+            <img src="images/factory.jpg" alt="Murui Technology Factory" loading="lazy">
+        </div>
+        <div class="about-text fade-in">
+            <h3 data-i18n="aboutTitle">Murui Technology Co., Ltd.</h3>
+            <p data-i18n="aboutP1">Founded as a focused pet industry manufacturer, Murui Technology operates an 8,000m&sup2; modern factory equipped with 50+ advanced processing machines. Our monthly production capacity exceeds 70,000 units.</p>
+            <p data-i18n="aboutP2">Our strength lies in the full production chain: from innovative design and in-depth R&D, to precision mold-making, advanced injection molding, efficient assembly, and professional global sales. With 300+ patents, certifications, and trademarks, we deliver quality you can trust.</p>
+            <p data-i18n="aboutP3">Our pet food division operates a 170,000m&sup2; facility with 1,250 team members, producing 4 categories and 600+ varieties of pet food with US$109M annual revenue.</p>
+            <div class="cert-list">
+                <span class="cert-badge">BRC</span>
+                <span class="cert-badge">BSCI</span>
+                <span class="cert-badge">IFS</span>
+                <span class="cert-badge">ISO 22000</span>
+                <span class="cert-badge">ISO 14001</span>
+                <span class="cert-badge">MSC</span>
+                <span class="cert-badge">HACCP</span>
+                <span class="cert-badge">GMP</span>
+                <span class="cert-badge">SMETA</span>
+                <span class="cert-badge">ASC</span>
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section class="relative bg-orange-600 text-white py-20 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6" data-i18n="heroTitle">Premium Chinese Pet Products for the Global Market</h1>
-            <p class="text-lg md:text-xl mb-10 opacity-90" data-i18n="heroSub">Innovative design and production for what pets truly want.</p>
-            <a href="#products" class="bg-white text-orange-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition" data-i18n="explore">Explore Products</a>
-        </div>
-    </section>
-
-    <!-- Categories / Products Grid -->
-    <main class="max-w-7xl mx-auto px-4 py-16" id="products">
-        <h2 class="text-3xl font-bold text-center mb-12" data-i18n="featuredProducts">Featured Products</h2>
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Products will be injected by JS -->
-        </div>
-    </main>
-
-    <!-- About Section -->
-    <section id="about" class="bg-white py-16">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8" data-i18n="about">About Us</h2>
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+<!-- CONTACT SECTION -->
+<section class="contact-section" id="contact">
+    <div class="contact-grid">
+        <div class="contact-info">
+            <h2 data-i18n="contactTitle">Let's Work Together</h2>
+            <p data-i18n="contactSub">Whether you're looking for OEM/ODM partnerships, private label solutions, or wholesale inquiries — our team is ready to help.</p>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
                 <div>
-                    <p class="text-lg text-gray-700 leading-relaxed mb-6" data-i18n="aboutText">
-                        We are Murui Technology, a leading pet supply and food manufacturer based in China. With over 8,000 m² of factory space and a team of 1,250 members, we produce high-quality pet feeders, fountains, and food for global distribution.
-                    </p>
-                    <p class="font-semibold text-orange-600" data-i18n="certificates">
-                        Certificates: BRC, BSCI, IFS, ISO 22000, MSC, HACCP, GMP, SMETA.
-                    </p>
+                    <h4>Email</h4>
+                    <p>chenyangw828@gmail.com</p>
+                    <p>kinntatsu@idealcorp.cn</p>
                 </div>
-                <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-                    <span class="text-gray-400">Factory Image Placeholder</span>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+                <div>
+                    <h4 data-i18n="phoneLabel">Phone</h4>
+                    <p>+86-18121191229</p>
+                    <p>+86-17688439601</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                </div>
+                <div>
+                    <h4>WeChat</h4>
+                    <p>Chole Ruan / Grace Wang</p>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="bg-gray-900 text-white py-16">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-8" data-i18n="contact">Contact</h2>
-            <p class="text-xl mb-4" data-i18n="contactEmail">Email: chenyangw828@gmail.com</p>
-            <p class="text-xl opacity-80" data-i18n="contactWechat">WeChat: Chole Ruan / Grace Wang</p>
+        <div class="contact-form">
+            <h3 data-i18n="formTitle">Send an Inquiry</h3>
+            <div class="form-group">
+                <label data-i18n="formName">Your Name</label>
+                <input type="text" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label data-i18n="formEmail">Email Address</label>
+                <input type="email" placeholder="you@company.com">
+            </div>
+            <div class="form-group">
+                <label data-i18n="formMsg">Message</label>
+                <textarea placeholder="Tell us about your needs..."></textarea>
+            </div>
+            <button class="form-submit" data-i18n="formSend">Send Message</button>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-100 py-8 border-t">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-600">
-            <p data-i18n="footerText">© 2026 Furrytale Pet Supplies. All rights reserved.</p>
+<!-- FOOTER -->
+<footer>
+    <p>&copy; 2026 Furrytale Pet Supplies by Murui Technology Co., Ltd. All rights reserved.</p>
+</footer>
+
+<script>
+/* ═══════ PRODUCT DATA ═══════ */
+const products = [
+    // Smart Feeders
+    { id:"F9", cat:"smart-feeder", name:'"FUN" Pet Feeder F9', img:"images/smart_feeder.jpg",
+      features:["3.5L","Ceramic Bowl","180-Day Battery","10 Meals/Day"],
+      specs:"Material: ABS + Ceramic | Portion: 10g (5g opt.) | Food: Dry 5~15mm, freeze-dried" },
+    { id:"F11", cat:"smart-feeder", name:'"Keeper" Smart Feeder F11', img:"images/smart_feeder.jpg",
+      features:["4.5L","160° Camera","Night Vision","Triple Seal"],
+      specs:"Material: ABS | Versions: WiFi/Camera/LED/Rechargeable | 4 or 10 meals/day" },
+    { id:"F14", cat:"smart-feeder", name:"Automatic Feeder F14", img:"images/smart_feeder.jpg",
+      features:["3L","4 Meals/Day","Voice Recording","180-Day Battery"],
+      specs:"Material: ABS + Stainless Steel | Smallest size, best value" },
+    { id:"F15", cat:"smart-feeder", name:"5G Smart Cage Feeder F15", img:"images/smart_feeder.jpg",
+      features:["1.8L","5G WiFi","HD Camera","Cage Mount"],
+      specs:"World's first hanging cage feeder | Dual food outlets | 2MP camera, two-way audio" },
+    { id:"F17", cat:"smart-feeder", name:"5G Smart Pet Feeder F17", img:"images/smart_feeder.jpg",
+      features:["4L","5G WiFi","3MP Camera","Privacy Cover"],
+      specs:"Visible bowl design | 10 meals/day | Dry food 5~15mm, freeze-dried" },
+    { id:"F18", cat:"smart-feeder", name:"Smart Cat Feeder F18", img:"images/smart_feeder.jpg",
+      features:["2.8L","Dual Buckets","160° Camera","5G WiFi"],
+      specs:"1080P 2MP camera | Night vision | Real-time monitoring & talking" },
+
+    // Wet Food Feeders
+    { id:"F13", cat:"wet-feeder", name:"Six Meals Pro Feeder F13", img:"images/wet_feeder.jpg",
+      features:["6 Meals","Ice Pack Fresh","Rechargeable","30-Day Battery"],
+      specs:"200ml x 6 trays | 3600mAh battery | Type-C charging | Bestseller" },
+    { id:"F19", cat:"wet-feeder", name:"Semi-Wet Six Meals F19", img:"images/wet_feeder.jpg",
+      features:["6 Meals","Meal Covers","Cordless","180-Day Battery"],
+      specs:"200ml x 6 trays | 3x AA batteries | 2 recycling ice packs" },
+    { id:"F22", cat:"wet-feeder", name:"Easy Pet Feeder F22", img:"images/wet_feeder.jpg",
+      features:["350ml","Ice Pack","Anti-Slip","365-Day Battery"],
+      specs:"1x AA battery | 48H timer | Portable, suitable for any place" },
+    { id:"F25", cat:"wet-feeder", name:"IR Sensor Fresh Bowl F25", img:"images/wet_feeder.jpg",
+      features:["400ml","IR Sensor","Weight ±1g","3600mAh"],
+      specs:"SUS304 stainless steel | Auto-open on pet approach | g/oz toggle" },
+    { id:"F26", cat:"wet-feeder", name:"Semi-Wet Four Meals F26", img:"images/wet_feeder.jpg",
+      features:["4 Meals","Wide Bowl","Cordless","360-Day Battery"],
+      specs:"240ml x 4 trays | 4x AA batteries | 2 recycling ice packs" },
+
+    // Water Fountains
+    { id:"W4", cat:"fountain", name:"Cordless Fountain W4", img:"images/water_fountain.jpg",
+      features:["2.5L","5000mAh","30dB Quiet","Triple Filter"],
+      specs:"30-day battery | Wireless pump | Easy clean" },
+    { id:"W4-S1", cat:"fountain", name:"Stainless Cordless W4-S1", img:"images/water_fountain.jpg",
+      features:["3.2L","SUS304","90-Day Battery","3 Modes"],
+      specs:"Timer/Induction/Continuous flow | 200ml emergency reserve" },
+    { id:"W5", cat:"fountain", name:"Ceramic Fountain W5", img:"images/ceramic_fountain.jpg",
+      features:["2L","Ceramic","Soothing Flow","Advanced Filter"],
+      specs:"Premium ceramic material | Fountain-style water flow" },
+    { id:"W7", cat:"fountain", name:"'Clover' Fountain W7", img:"images/water_fountain.jpg",
+      features:["2L","Waterfall 360°","Quad Purify","35dB"],
+      specs:"BPA-free PP | All-angle drinking area | 24/7 circulation" },
+    { id:"W8", cat:"fountain", name:"Stainless Steel Fountain W8", img:"images/water_fountain.jpg",
+      features:["3L","SUS304","360° Round","Multi-Pet"],
+      specs:"Easy clean stainless tray | Prevents black chin" },
+    { id:"W9", cat:"fountain", name:"Simple Silent Fountain W9", img:"images/water_fountain.jpg",
+      features:["2.4L","Dual Spout","Water Window","Ultra Silent"],
+      specs:"Budget-friendly | Extra silent accessory included" },
+    { id:"W10", cat:"fountain", name:"Wireless Silent W10", img:"images/water_fountain.jpg",
+      features:["2L","Easy Setup","Triple Filter","Dual Mode"],
+      specs:"Timer & continuous flow | Wireless pump | Optional 5000mAh battery" },
+    { id:"W11", cat:"fountain", name:"Visual Filter SS W11-S1", img:"images/water_fountain.jpg",
+      features:["3.2L","SUS304","Transparent Filter","3-Month Life"],
+      specs:"Triple-layer filtration | Maifan stone + zeolite + activated carbon" },
+    { id:"W12", cat:"fountain", name:"Smart Battery SS W12", img:"images/water_fountain.jpg",
+      features:["3.2L","4000mAh","IR Sensor","Smart Alerts"],
+      specs:"SUS304 | Low water & filter reminders | 30-day battery" },
+
+    // Combos
+    { id:"FW1", cat:"combo", name:"Feeder+Fountain Combo FW1", img:"images/smart_feeder.jpg",
+      features:["F14 + W7","Space Saver","One Box","1.4kg"],
+      specs:"Industry-first combo | Compact size, high value" },
+    { id:"FW2", cat:"combo", name:"Feeder+Fountain Combo FW2", img:"images/smart_feeder.jpg",
+      features:["F17 + W8","Space Saver","One Box","2.72kg"],
+      specs:"Industry-first combo | WiFi/Camera versions available" },
+
+    // Cat Litter
+    { id:"BP01", cat:"litter", name:"Auto Cat Litter Box BP01", img:"images/cat_litter_box.jpg",
+      features:["WiFi App","10L Capacity","50cm Long","Smart Track"],
+      specs:"Fits cats up to 12 lbs | Week-long trip capacity | 2.4G smart control" },
+    { id:"CL1", cat:"litter", name:"Cassava Cat Litter", img:"images/cat_litter_box.jpg",
+      features:["Eco-Friendly","Strong Clump","Dust-Free","Water Soluble"],
+      specs:"Green cassava raw materials | Flushable" },
+    { id:"CL2", cat:"litter", name:"Occult Blood Test Tofu Litter", img:"images/cat_litter_box.jpg",
+      features:["Health Monitor","Color Change","0.1% Detection","Natural"],
+      specs:"White-to-blue-green color change | Detects hemoglobin concentration" },
+];
+
+const foodItems = [
+    { name:"Creamy Puree Treats", img:"images/pet_food.jpg",
+      desc:"Insoluble puree, complete & balanced options. Multiple flavors including chicken, tuna, and salmon." },
+    { name:"Soft Roll Cat Bites", img:"images/pet_food.jpg",
+      desc:"Available in chicken, tuna, salmon, and chicken + cheese flavors." },
+    { name:"Retorted Cat Treats", img:"images/pet_food.jpg",
+      desc:"Chicken, smoked fish, grilled chicken, tuna fish, and grilled mackerel." },
+    { name:"Wet Treats & Toppers", img:"images/pet_food.jpg",
+      desc:"Premium wet treats in chicken, duck, salmon, rabbit, and tuna. Perfect as meal toppers." },
+    { name:"Soups & Broths", img:"images/pet_food.jpg",
+      desc:"Nutritious pet soups and broths for enhanced hydration and flavor." },
+    { name:"Canned Pet Food", img:"images/pet_food.jpg",
+      desc:"Complete canned meals with premium ingredients. Multiple recipes available." },
+    { name:"Oven Baked Pet Food", img:"images/pet_food.jpg",
+      desc:"Complete & balanced. No meat meal, wheat gluten, wheat, corn, soy, or artificial flavors." },
+    { name:"Nutri+ Chewing Treats", img:"images/pet_food.jpg",
+      desc:"High digestibility. Min 20% crude protein, 17% crude fat. Vegetable and meat varieties." },
+    { name:"Dried Meat Treats", img:"images/pet_food.jpg",
+      desc:"Premium dried meat treats made from quality poultry, fish, and other proteins." },
+    { name:"Private Label Service", img:"images/pet_food.jpg",
+      desc:"OEM/ODM packaging solutions. Custom formulations and branding for your market." },
+];
+
+/* ═══════ RENDER ═══════ */
+function renderProducts(filter = 'all') {
+    const grid = document.getElementById('productGrid');
+    const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card fade-in visible">
+            <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+            <div class="product-body">
+                <div class="product-cat">${p.cat.replace('-', ' ')}</div>
+                <div class="product-name">${p.name}</div>
+                <ul class="product-features">
+                    ${p.features.map(f => `<li>${f}</li>`).join('')}
+                </ul>
+                <div class="product-specs">${p.specs}</div>
+            </div>
         </div>
-    </footer>
+    `).join('');
+}
 
-    <script>
-        let productData = {};
+function renderFood() {
+    const grid = document.getElementById('foodGrid');
+    grid.innerHTML = foodItems.map(f => `
+        <div class="food-card fade-in visible">
+            <div class="food-img"><img src="${f.img}" alt="${f.name}" loading="lazy"></div>
+            <div class="food-body">
+                <h4>${f.name}</h4>
+                <p>${f.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
 
-        async function init() {
-            const response = await fetch('data.json');
-            productData = await response.json();
-            renderProducts();
-            updateLanguage('en');
+/* ═══════ TABS ═══════ */
+document.getElementById('catTabs').addEventListener('click', e => {
+    if (!e.target.classList.contains('cat-tab')) return;
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    renderProducts(e.target.dataset.cat);
+});
+
+/* ═══════ SCROLL ANIMATION ═══════ */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* ═══════ i18n ═══════ */
+const translations = {
+    en: {
+        products_nav:"Products", food_nav:"Pet Food", about_nav:"About Us", contact_nav:"Contact",
+        heroBadge:"MURUI TECHNOLOGY CO., LTD.",
+        heroTitle:"Design for What Pets Truly Want",
+        heroSub:"From smart feeders to premium nutrition — we manufacture innovative pet products trusted by brands worldwide. 8,000m\u00B2 factory, 300+ patents, exported to 50+ countries.",
+        heroCTA:"Explore Products", heroContact:"Contact Sales",
+        stat1:"Factory Floor Area", stat2:"Patents & Certifications", stat3:"Monthly Production", stat4:"Team Members",
+        productsTitle:"Smart Pet Products", productsSub:"Innovative design meets precision engineering. From automatic feeders to cordless water fountains.",
+        catAll:"All Products", catFeeders:"Smart Feeders", catWet:"Wet Food Feeders", catFountains:"Water Fountains", catCombos:"Combos", catLitter:"Cat Litter",
+        foodTitle:"Pet Food & Treats", foodSub:"Annual output of 100,000 tons dried food and 30,000 tons wet food. BRC, IFS, HACCP certified.",
+        aboutTitle:"Murui Technology Co., Ltd.",
+        aboutP1:"Founded as a focused pet industry manufacturer, Murui Technology operates an 8,000m\u00B2 modern factory equipped with 50+ advanced processing machines. Our monthly production capacity exceeds 70,000 units.",
+        aboutP2:"Our strength lies in the full production chain: from innovative design and in-depth R&D, to precision mold-making, advanced injection molding, efficient assembly, and professional global sales. With 300+ patents, certifications, and trademarks, we deliver quality you can trust.",
+        aboutP3:"Our pet food division operates a 170,000m\u00B2 facility with 1,250 team members, producing 4 categories and 600+ varieties of pet food with US$109M annual revenue.",
+        contactTitle:"Let's Work Together", contactSub:"Whether you're looking for OEM/ODM partnerships, private label solutions, or wholesale inquiries — our team is ready to help.",
+        phoneLabel:"Phone", formTitle:"Send an Inquiry", formName:"Your Name", formEmail:"Email Address", formMsg:"Message", formSend:"Send Message"
+    },
+    es: {
+        products_nav:"Productos", food_nav:"Alimentos", about_nav:"Nosotros", contact_nav:"Contacto",
+        heroBadge:"MURUI TECHNOLOGY CO., LTD.",
+        heroTitle:"Disenado para Lo Que las Mascotas Realmente Quieren",
+        heroSub:"Desde alimentadores inteligentes hasta nutricion premium: fabricamos productos innovadores para mascotas de confianza mundial. Fabrica de 8.000m\u00B2, mas de 300 patentes.",
+        heroCTA:"Explorar Productos", heroContact:"Contactar Ventas",
+        stat1:"Area de Fabrica", stat2:"Patentes y Certificaciones", stat3:"Produccion Mensual", stat4:"Miembros del Equipo",
+        productsTitle:"Productos Inteligentes", productsSub:"Diseno innovador y ingenieria de precision.",
+        catAll:"Todos", catFeeders:"Comederos", catWet:"Comida Humeda", catFountains:"Fuentes", catCombos:"Combos", catLitter:"Arena",
+        foodTitle:"Alimentos y Golosinas", foodSub:"Produccion anual de 100.000 toneladas de alimento seco y 30.000 toneladas humedo.",
+        aboutTitle:"Murui Technology Co., Ltd.",
+        aboutP1:"Fabrica moderna de 8.000m\u00B2 con mas de 50 maquinas avanzadas. Capacidad mensual superior a 70.000 unidades.",
+        aboutP2:"Cadena de produccion completa: diseno, I+D, moldes de precision, inyeccion, ensamblaje y ventas globales. Mas de 300 patentes y certificaciones.",
+        aboutP3:"Division de alimentos: instalacion de 170.000m\u00B2, 1.250 miembros, 4 categorias y 600+ variedades. Ingresos anuales de US$109M.",
+        contactTitle:"Trabajemos Juntos", contactSub:"OEM/ODM, marca privada o compras al por mayor.",
+        phoneLabel:"Telefono", formTitle:"Enviar Consulta", formName:"Su Nombre", formEmail:"Correo", formMsg:"Mensaje", formSend:"Enviar"
+    },
+    fr: {
+        products_nav:"Produits", food_nav:"Nourriture", about_nav:"A Propos", contact_nav:"Contact",
+        heroBadge:"MURUI TECHNOLOGY CO., LTD.",
+        heroTitle:"Concu pour Ce Que les Animaux Veulent Vraiment",
+        heroSub:"Des distributeurs intelligents a la nutrition premium — nous fabriquons des produits innovants pour animaux de compagnie.",
+        heroCTA:"Explorer les Produits", heroContact:"Contacter les Ventes",
+        stat1:"Surface d'Usine", stat2:"Brevets et Certifications", stat3:"Production Mensuelle", stat4:"Membres de l'Equipe",
+        productsTitle:"Produits Intelligents", productsSub:"Design innovant et ingenierie de precision.",
+        catAll:"Tous", catFeeders:"Distributeurs", catWet:"Nourriture Humide", catFountains:"Fontaines", catCombos:"Combos", catLitter:"Litiere",
+        foodTitle:"Nourriture et Friandises", foodSub:"Production annuelle de 100 000 tonnes de nourriture seche et 30 000 tonnes humide.",
+        aboutTitle:"Murui Technology Co., Ltd.",
+        aboutP1:"Usine moderne de 8 000m\u00B2 avec plus de 50 machines. Capacite mensuelle depassant 70 000 unites.",
+        aboutP2:"Chaine de production complete: conception, R&D, moules de precision, injection, assemblage et ventes mondiales.",
+        aboutP3:"Division alimentaire: 170 000m\u00B2, 1 250 membres, 4 categories et 600+ varietes.",
+        contactTitle:"Travaillons Ensemble", contactSub:"OEM/ODM, marque privee ou vente en gros.",
+        phoneLabel:"Telephone", formTitle:"Envoyer une Demande", formName:"Votre Nom", formEmail:"Email", formMsg:"Message", formSend:"Envoyer"
+    },
+    de: {
+        products_nav:"Produkte", food_nav:"Tiernahrung", about_nav:"Uber Uns", contact_nav:"Kontakt",
+        heroBadge:"MURUI TECHNOLOGY CO., LTD.",
+        heroTitle:"Entworfen fur Das, Was Haustiere Wirklich Wollen",
+        heroSub:"Von intelligenten Futterautomaten bis zu Premium-Ernahrung — innovative Heimtierprodukte aus 8.000m\u00B2 Fabrik.",
+        heroCTA:"Produkte Entdecken", heroContact:"Vertrieb Kontaktieren",
+        stat1:"Fabrikflache", stat2:"Patente & Zertifikate", stat3:"Monatliche Produktion", stat4:"Teammitglieder",
+        productsTitle:"Intelligente Produkte", productsSub:"Innovatives Design trifft Prazisionstechnik.",
+        catAll:"Alle", catFeeders:"Futterautomaten", catWet:"Nassfutter", catFountains:"Brunnen", catCombos:"Kombis", catLitter:"Katzenstreu",
+        foodTitle:"Tiernahrung & Leckerlis", foodSub:"Jahresproduktion: 100.000 t Trockenfutter und 30.000 t Nassfutter.",
+        aboutTitle:"Murui Technology Co., Ltd.",
+        aboutP1:"Moderne Fabrik mit 8.000m\u00B2 und uber 50 Maschinen. Monatliche Kapazitat uber 70.000 Einheiten.",
+        aboutP2:"Vollstandige Produktionskette: Design, F&E, Prazisionsformen, Spritzguss, Montage und weltweiter Vertrieb.",
+        aboutP3:"Lebensmittelabteilung: 170.000m\u00B2, 1.250 Mitarbeiter, 4 Kategorien, 600+ Sorten. US$109M Jahresumsatz.",
+        contactTitle:"Zusammenarbeiten", contactSub:"OEM/ODM, Private Label oder Grosshandel.",
+        phoneLabel:"Telefon", formTitle:"Anfrage Senden", formName:"Ihr Name", formEmail:"E-Mail", formMsg:"Nachricht", formSend:"Senden"
+    },
+    ar: {
+        products_nav:"\u0645\u0646\u062a\u062c\u0627\u062a", food_nav:"\u0637\u0639\u0627\u0645", about_nav:"\u0645\u0646 \u0646\u062d\u0646", contact_nav:"\u0627\u062a\u0635\u0644",
+        heroBadge:"MURUI TECHNOLOGY CO., LTD.",
+        heroTitle:"\u0645\u0635\u0645\u0645 \u0644\u0645\u0627 \u062a\u0631\u064a\u062f\u0647 \u0627\u0644\u062d\u064a\u0648\u0627\u0646\u0627\u062a \u0627\u0644\u0623\u0644\u064a\u0641\u0629 \u062d\u0642\u064b\u0627",
+        heroSub:"\u0645\u0646 \u0645\u0648\u0632\u0639\u0627\u062a \u0627\u0644\u0637\u0639\u0627\u0645 \u0627\u0644\u0630\u0643\u064a\u0629 \u0625\u0644\u0649 \u0627\u0644\u062a\u063a\u0630\u064a\u0629 \u0627\u0644\u0645\u0645\u064a\u0632\u0629. \u0645\u0635\u0646\u0639 8000 \u0645\u062a\u0631 \u0645\u0631\u0628\u0639\u060c \u0623\u0643\u062b\u0631 \u0645\u0646 300 \u0628\u0631\u0627\u0621\u0629 \u0627\u062e\u062a\u0631\u0627\u0639.",
+        heroCTA:"\u0627\u0633\u062a\u0643\u0634\u0641 \u0627\u0644\u0645\u0646\u062a\u062c\u0627\u062a", heroContact:"\u0627\u062a\u0635\u0644 \u0628\u0627\u0644\u0645\u0628\u064a\u0639\u0627\u062a",
+        stat1:"\u0645\u0633\u0627\u062d\u0629 \u0627\u0644\u0645\u0635\u0646\u0639", stat2:"\u0628\u0631\u0627\u0621\u0627\u062a \u0648\u0634\u0647\u0627\u062f\u0627\u062a", stat3:"\u0627\u0644\u0625\u0646\u062a\u0627\u062c \u0627\u0644\u0634\u0647\u0631\u064a", stat4:"\u0623\u0639\u0636\u0627\u0621 \u0627\u0644\u0641\u0631\u064a\u0642",
+        productsTitle:"\u0645\u0646\u062a\u062c\u0627\u062a \u0630\u0643\u064a\u0629", productsSub:"\u062a\u0635\u0645\u064a\u0645 \u0645\u0628\u062a\u0643\u0631 \u0648\u0647\u0646\u062f\u0633\u0629 \u062f\u0642\u064a\u0642\u0629.",
+        catAll:"\u0627\u0644\u0643\u0644", catFeeders:"\u0645\u0648\u0632\u0639\u0627\u062a", catWet:"\u0637\u0639\u0627\u0645 \u0631\u0637\u0628", catFountains:"\u0646\u0648\u0627\u0641\u064a\u0631", catCombos:"\u0645\u062c\u0645\u0648\u0639\u0627\u062a", catLitter:"\u0631\u0645\u0644 \u0642\u0637\u0637",
+        foodTitle:"\u0637\u0639\u0627\u0645 \u0648\u0645\u0643\u0627\u0641\u0622\u062a", foodSub:"\u0625\u0646\u062a\u0627\u062c \u0633\u0646\u0648\u064a 100 \u0623\u0644\u0641 \u0637\u0646 \u062c\u0627\u0641 \u0648 30 \u0623\u0644\u0641 \u0637\u0646 \u0631\u0637\u0628.",
+        aboutTitle:"Murui Technology Co., Ltd.",
+        aboutP1:"\u0645\u0635\u0646\u0639 \u062d\u062f\u064a\u062b 8000 \u0645\u062a\u0631 \u0645\u0631\u0628\u0639 \u0645\u0639 \u0623\u0643\u062b\u0631 \u0645\u0646 50 \u0622\u0644\u0629. \u0637\u0627\u0642\u0629 \u0625\u0646\u062a\u0627\u062c\u064a\u0629 \u0634\u0647\u0631\u064a\u0629 \u062a\u062a\u062c\u0627\u0648\u0632 70 \u0623\u0644\u0641 \u0648\u062d\u062f\u0629.",
+        aboutP2:"\u0633\u0644\u0633\u0644\u0629 \u0625\u0646\u062a\u0627\u062c \u0643\u0627\u0645\u0644\u0629: \u062a\u0635\u0645\u064a\u0645\u060c \u0628\u062d\u062b \u0648\u062a\u0637\u0648\u064a\u0631\u060c \u0642\u0648\u0627\u0644\u0628\u060c \u062d\u0642\u0646\u060c \u062a\u062c\u0645\u064a\u0639 \u0648\u0645\u0628\u064a\u0639\u0627\u062a \u0639\u0627\u0644\u0645\u064a\u0629.",
+        aboutP3:"\u0642\u0633\u0645 \u0627\u0644\u0623\u063a\u0630\u064a\u0629: 170 \u0623\u0644\u0641 \u0645\u062a\u0631 \u0645\u0631\u0628\u0639\u060c 1250 \u0639\u0636\u0648\u060c 4 \u0641\u0626\u0627\u062a \u0648600+ \u0635\u0646\u0641.",
+        contactTitle:"\u0644\u0646\u0639\u0645\u0644 \u0645\u0639\u064b\u0627", contactSub:"OEM/ODM \u0623\u0648 \u0639\u0644\u0627\u0645\u0629 \u062e\u0627\u0635\u0629 \u0623\u0648 \u062c\u0645\u0644\u0629.",
+        phoneLabel:"\u0647\u0627\u062a\u0641", formTitle:"\u0625\u0631\u0633\u0627\u0644 \u0627\u0633\u062a\u0641\u0633\u0627\u0631", formName:"\u0627\u0633\u0645\u0643", formEmail:"\u0628\u0631\u064a\u062f\u0643", formMsg:"\u0631\u0633\u0627\u0644\u0629", formSend:"\u0625\u0631\u0633\u0627\u0644"
+    }
+};
+
+function updateLanguage(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
         }
+    });
+    if (lang === 'ar') {
+        document.body.classList.add('rtl');
+        document.documentElement.lang = 'ar';
+    } else {
+        document.body.classList.remove('rtl');
+        document.documentElement.lang = lang;
+    }
+}
 
-        function updateLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
-            document.title = translations[lang].title;
-            
-            // RTL support for Arabic
-            if (lang === 'ar') {
-                document.body.classList.add('rtl');
-            } else {
-                document.body.classList.remove('rtl');
-            }
-        }
+document.getElementById('langSelector').addEventListener('change', e => updateLanguage(e.target.value));
 
-        function renderProducts() {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = productData.products.map(p => `
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition border overflow-hidden">
-                    <div class="h-48 bg-gray-200 flex items-center justify-center text-gray-400">Image: ${p.id}</div>
-                    <div class="p-6">
-                        <span class="text-xs font-bold text-orange-500 uppercase">${p.category}</span>
-                        <h3 class="text-xl font-bold mt-2">${p.name}</h3>
-                        <ul class="mt-4 space-y-2 text-sm text-gray-600">
-                            ${p.features.map(f => `<li>• ${f}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        document.getElementById('langSelector').addEventListener('change', (e) => {
-            updateLanguage(e.target.value);
-        });
-
-        init();
-    </script>
+/* ═══════ INIT ═══════ */
+renderProducts();
+renderFood();
+updateLanguage('en');
+</script>
 </body>
 </html>
