@@ -291,30 +291,47 @@
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: var(--radius); padding: 2.5rem;
         }
-        .contact-form h3 { font-size: 1.2rem; margin-bottom: 1.5rem; }
+        .contact-form h3 { font-size: 1.25rem; margin-bottom: 1.5rem; font-weight: 700; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
         .form-group { margin-bottom: 1rem; }
         .form-group label {
-            display: block; font-size: 0.85rem; color: rgba(255,255,255,0.5);
-            margin-bottom: 6px;
+            display: block; font-size: 0.82rem; color: rgba(255,255,255,0.5);
+            margin-bottom: 6px; font-weight: 500; letter-spacing: 0.02em;
         }
-        .form-group input, .form-group textarea {
-            width: 100%; padding: 12px 16px;
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 16px; box-sizing: border-box;
             background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
             border-radius: var(--radius-sm); color: white;
             font-family: inherit; font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--brand);
         }
         .form-group input::placeholder, .form-group textarea::placeholder {
             color: rgba(255,255,255,0.3);
         }
-        .form-group textarea { resize: vertical; min-height: 100px; }
+        .form-group select option { background: #2D2D4A; color: white; }
+        .form-group textarea { resize: vertical; min-height: 110px; }
         .form-submit {
             width: 100%; padding: 14px;
             background: var(--brand); color: white; border: none;
             border-radius: 100px; font-family: inherit; font-weight: 600;
-            font-size: 1rem; cursor: pointer; transition: background 0.2s;
-            margin-top: 0.5rem;
+            font-size: 1rem; cursor: pointer; transition: background 0.2s, transform 0.15s;
+            margin-top: 0.75rem; letter-spacing: 0.02em;
         }
         .form-submit:hover { background: var(--brand-dark); }
+        .form-submit:active { transform: scale(0.98); }
+        .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .form-feedback {
+            display: none; margin-top: 1rem; padding: 12px 16px;
+            border-radius: var(--radius-sm); font-size: 0.9rem; text-align: center;
+        }
+        .form-feedback.success { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+        .form-feedback.error   { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+        .contact-item a { color: rgba(255,255,255,0.6); text-decoration: none; }
+        .contact-item a:hover { color: var(--brand); }
 
         /* ── FOOTER ── */
         footer {
@@ -471,54 +488,112 @@
 <!-- CONTACT SECTION -->
 <section class="contact-section" id="contact">
     <div class="contact-grid">
+        <!-- LEFT: Contact Info -->
         <div class="contact-info">
             <h2 data-i18n="contactTitle">Let's Work Together</h2>
             <p data-i18n="contactSub">Whether you're looking for OEM/ODM partnerships, private label solutions, or wholesale inquiries — our team is ready to help.</p>
+
             <div class="contact-item">
                 <div class="contact-icon">
                     <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 </div>
                 <div>
                     <h4>Email</h4>
-                    <p>chenyangw828@gmail.com</p>
-                    <p>kinntatsu@idealcorp.cn</p>
+                    <a href="mailto:danniallcc@gmail.com"><p>danniallcc@gmail.com</p></a>
                 </div>
             </div>
+
             <div class="contact-item">
                 <div class="contact-icon">
                     <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
                 </div>
                 <div>
-                    <h4 data-i18n="phoneLabel">Phone</h4>
-                    <p>+86-18121191229</p>
-                    <p>+86-17688439601</p>
+                    <h4 data-i18n="phoneLabel">Phone / WhatsApp</h4>
+                    <a href="tel:+8615355036913"><p>+86 153 5503 6913</p></a>
                 </div>
             </div>
+
             <div class="contact-item">
                 <div class="contact-icon">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    <!-- WeChat bubble icon -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.5 13.5c0 3.038-2.782 5.5-6.213 5.5-.614 0-1.205-.08-1.762-.23L9 20l.94-2.5C8.745 16.617 8 15.127 8 13.5 8 10.462 10.782 8 14.213 8c3.432 0 6.287 2.462 6.287 5.5z"/><path d="M15.5 8.5c-.34-2.77-2.946-4.9-6.092-4.9C5.864 3.6 3 6.062 3 9.1c0 1.627.745 3.117 1.94 4L4 15.6l3.525-1.23c.557.15 1.148.23 1.762.23.21 0 .417-.01.622-.03"/></svg>
                 </div>
                 <div>
                     <h4>WeChat</h4>
-                    <p>Chole Ruan / Grace Wang</p>
+                    <p>Daniell_c</p>
                 </div>
             </div>
+
+            <div style="margin-top:2.5rem; padding:1.25rem; background:rgba(232,101,43,0.08); border:1px solid rgba(232,101,43,0.2); border-radius:12px;">
+                <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);margin:0 0 4px 0;font-weight:600;letter-spacing:0.04em;">RESPONSE TIME</p>
+                <p style="font-size:0.95rem;color:rgba(255,255,255,0.8);margin:0;">Within 24 hours on business days</p>
+            </div>
         </div>
+
+        <!-- RIGHT: Inquiry Form → Formspree → danniallcc@gmail.com -->
         <div class="contact-form">
-            <h3 data-i18n="formTitle">Send an Inquiry</h3>
-            <div class="form-group">
-                <label data-i18n="formName">Your Name</label>
-                <input type="text" placeholder="John Doe">
-            </div>
-            <div class="form-group">
-                <label data-i18n="formEmail">Email Address</label>
-                <input type="email" placeholder="you@company.com">
-            </div>
-            <div class="form-group">
-                <label data-i18n="formMsg">Message</label>
-                <textarea placeholder="Tell us about your needs..."></textarea>
-            </div>
-            <button class="form-submit" data-i18n="formSend">Send Message</button>
+            <h3 data-i18n="formTitle">Send a Buyer Inquiry</h3>
+            <form id="inquiryForm" action="https://formspree.io/f/danniallcc@gmail.com" method="POST" novalidate>
+                <!-- hidden reply-to field -->
+                <input type="hidden" name="_subject" value="New Buyer Inquiry — Furrytale / Murui Technology">
+                <input type="hidden" name="_next" value="">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" name="name" placeholder="John Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" name="company" placeholder="Your Company">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" name="email" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone / WhatsApp</label>
+                        <input type="text" name="phone" placeholder="+1 234 567 8900">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Interest</label>
+                    <select name="product_interest">
+                        <option value="">— Select a category —</option>
+                        <option>Smart Feeders (F-series)</option>
+                        <option>Wet Food Feeders</option>
+                        <option>Water Fountains (W-series)</option>
+                        <option>Feeder + Fountain Combo</option>
+                        <option>Cat Litter Box</option>
+                        <option>Pet Food &amp; Treats (OEM/ODM)</option>
+                        <option>Multiple / Full Catalog</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Estimated Monthly Order Quantity</label>
+                    <select name="quantity">
+                        <option value="">— Select quantity —</option>
+                        <option>Sample / Trial (&lt; 100 units)</option>
+                        <option>100 – 500 units</option>
+                        <option>500 – 2,000 units</option>
+                        <option>2,000 – 10,000 units</option>
+                        <option>10,000+ units</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Requirements *</label>
+                    <textarea name="message" placeholder="Describe your sourcing needs, target market, customization requirements, or any questions..." required></textarea>
+                </div>
+
+                <button type="submit" class="form-submit" id="inquirySubmitBtn">Send Inquiry</button>
+                <div class="form-feedback" id="formFeedback"></div>
+            </form>
         </div>
     </div>
 </section>
@@ -809,6 +884,63 @@ function updateLanguage(lang) {
 }
 
 document.getElementById('langSelector').addEventListener('change', e => updateLanguage(e.target.value));
+
+/* ═══════ INQUIRY FORM — Formspree AJAX ═══════ */
+(function() {
+    const form = document.getElementById('inquiryForm');
+    const btn  = document.getElementById('inquirySubmitBtn');
+    const fb   = document.getElementById('formFeedback');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Basic client-side validation
+        const name    = form.querySelector('[name="name"]').value.trim();
+        const email   = form.querySelector('[name="email"]').value.trim();
+        const message = form.querySelector('[name="message"]').value.trim();
+        if (!name || !email || !message) {
+            showFeedback('error', 'Please fill in your name, email, and requirements.');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showFeedback('error', 'Please enter a valid email address.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        fb.style.display = 'none';
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            });
+            if (res.ok) {
+                showFeedback('success', 'Your inquiry has been sent! We\'ll get back to you within 24 hours.');
+                form.reset();
+            } else {
+                const data = await res.json().catch(() => ({}));
+                showFeedback('error', data.error || 'Something went wrong. Please email us directly at danniallcc@gmail.com');
+            }
+        } catch(err) {
+            showFeedback('error', 'Network error. Please email us directly at danniallcc@gmail.com');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Send Inquiry';
+        }
+    });
+
+    function showFeedback(type, msg) {
+        fb.className = 'form-feedback ' + type;
+        fb.textContent = msg;
+        fb.style.display = 'block';
+        fb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+})();
 
 /* ═══════ INIT ═══════ */
 renderProducts();
