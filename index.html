@@ -37,6 +37,15 @@
             -webkit-font-smoothing: antialiased;
         }
         .rtl { direction: rtl; text-align: right; }
+        .rtl .nav-links { gap: 2rem; }
+        .rtl .contact-item { flex-direction: row; }
+        .rtl .contact-icon { margin-left: 1rem; margin-right: 0; }
+        .rtl .hero-badge::before { left: auto; right: 0; }
+        .rtl .product-card .product-cat { left: auto; right: 1.25rem; }
+        .rtl .form-group label { text-align: right; }
+        .rtl .cert-list { flex-direction: row-reverse; }
+        .rtl .contact-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 991px) { .rtl .contact-grid { grid-template-columns: 1fr; } }
 
         /* ── NAV ── */
         nav {
@@ -389,11 +398,15 @@
             <a href="#contact" data-i18n="contact_nav">Contact</a>
             <select id="langSelector">
                 <option value="en">English</option>
-                <option value="zh">中文</option>
-                <option value="es">Espanol</option>
-                <option value="fr">Francais</option>
+                <option value="zh">中文 (简体)</option>
+                <option value="zh-tw">中文 (繁體)</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
                 <option value="de">Deutsch</option>
+                <option value="pt">Português</option>
                 <option value="ar">العربية</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
             </select>
         </div>
         <button class="mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
@@ -596,7 +609,7 @@
 
 <!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Furrytale Pet Supplies by Murui Technology Co., Ltd. All rights reserved.</p>
+    <p>&copy; 2026 Furrytale Technology Co., Ltd. All rights reserved.</p>
 </footer>
 
 <script>
@@ -604,14 +617,23 @@
 const products = [
     // --- PET SUPPLIES (PDF: furrytale PRODUCT CATALOG) ---
     { id:"F9", cat:"supplies", name:'"FUN" Pet Feeder F9', img:"https://sc02.alicdn.com/kf/A08efcd2c4eff4b7aa4d17b7af67581e3k.png",
+      name_zh:'“FUN”智能喂食机 F9',
       features:["Ceramic Bowl","Personalized Recording","180-Day Battery"],
-      specs:"3.5L | High-temp porcelain | Dry food 5~15mm & freeze-dried | 10 meals/day" },
+      features_zh:["陶瓷碗材质","个性化录音","180天超长续航"],
+      specs:"3.5L | High-temp porcelain | Dry food 5~15mm & freeze-dried | 10 meals/day",
+      specs_zh:"3.5L | 高温强化瓷 | 适配5-15mm干粮及冻干 | 每日10餐" },
     { id:"F11", cat:"supplies", name:'"Keeper" Smart Feeder F11', img:"https://sc02.alicdn.com/kf/Afc1cbce1aebb47158488faac147d201aZ.png",
+      name_zh:'“Keeper”智能摄像喂食机 F11',
       features:["160\u00B0 Wide Camera","Triple-Sealed Freshness","Rechargeable 3600mAh"],
-      specs:"4.5L | Night vision | 30-day battery life | Adaptive WiFi/LED versions" },
+      features_zh:["160\u00B0 广角摄像头","三重密封锁鲜","3600mAh 可充电电池"],
+      specs:"4.5L | Night vision | 30-day battery life | Adaptive WiFi/LED versions",
+      specs_zh:"4.5L | 高清夜视 | 30天电池续航 | 适配WiFi/LED版" },
     { id:"F14", cat:"supplies", name:"Automatic Feeder F14", img:"https://sc02.alicdn.com/kf/Ab16d205e5b57421886247a144c0328b3T.png",
+      name_zh:'自动喂食机 F14',
       features:["Smallest Size","3L Capacity","180-Day Battery","Voice Recording"],
-      specs:"ABS + Stainless Steel | 4 meals/day | Best value model" },
+      features_zh:["极致小巧尺寸","3L容量","180天超长续航","语音录制"],
+      specs:"ABS + Stainless Steel | 4 meals/day | Best value model",
+      specs_zh:"ABS + 不锈钢 | 每日4餐 | 高性价比入门款" },
     { id:"F15", cat:"supplies", name:"5G Smart Cage Feeder F15", img:"https://sc02.alicdn.com/kf/A220f66b99e054cfc9c177c9d16a32d22d.png",
       features:["World's 1st Hanging Feeder","5G WiFi Connection","HD Camera Interaction"],
       specs:"1.8L | Dual food outlet for kibble 1-30mm | Two-way audio | Semi-transparent tank" },
@@ -719,16 +741,21 @@ function renderProducts(filter = 'all') {
         const catKey = p.cat === 'food' ? 'catFood' : 'catSupplies';
         const catText = (translations[lang] && translations[lang][catKey]) ? translations[lang][catKey] : (p.cat === 'food' ? 'Pet Food' : 'Pet Supplies');
         
+        // I18n support for product data
+        const name = p[`name_${lang}`] || p.name;
+        const features = p[`features_${lang}`] || p.features;
+        const specs = p[`specs_${lang}`] || p.specs;
+        
         return `
             <div class="product-card fade-in visible">
-                <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                <div class="product-img"><img src="${p.img}" alt="${name}" loading="lazy"></div>
                 <div class="product-body">
                     <div class="product-cat">${catText}</div>
-                    <div class="product-name">${p.name}</div>
+                    <div class="product-name">${name}</div>
                     <ul class="product-features">
-                        ${p.features.map(f => `<li>${f}</li>`).join('')}
+                        ${features.map(f => `<li>${f}</li>`).join('')}
                     </ul>
-                    <div class="product-specs">${p.specs}</div>
+                    <div class="product-specs">${specs}</div>
                 </div>
             </div>
         `;
@@ -791,22 +818,90 @@ const translations = {
         contactTitle:"让我们携手合作", contactSub:"无论是OEM/ODM合作、自有品牌方案还是批发询价——我们的团队随时为您服务。",
         phoneLabel:"电话", formTitle:"发送询价", formName:"您的姓名", formEmail:"电子邮箱", formMsg:"留言内容", formSend:"发送消息"
     },
+    "zh-tw": {
+        products_nav:"寵物用品", food_nav:"寵物食品", about_nav:"關於我們", contact_nav:"聯繫我們",
+        heroBadge:"富瑞特科技有限公司 (FURRYTALE TECHNOLOGY)",
+        heroTitle:"專為寵物真正所需而設計",
+        heroSub:"創新寵物用品與優質營養食品製造商。擁有5萬平方米自有生產基地和合作超10萬平方米工廠配套生產，300+項專利，出口超50個國家和地區，深受全球買家信賴。",
+        heroCTA:"探索產品", heroContact:"聯繫銷售",
+        stat1:"總生產基地面積", stat2:"專利與認證", stat3:"月產能", stat4:"團隊成員",
+        productsTitle:"產品目錄", productsSub:"探索我們的創新寵物用品系列和優質營養寵物食品。",
+        catAll:"全部商品", catSupplies:"寵物用品", catFood:"寵物食品",
+        foodTitle:"寵物食品與零食", foodSub:"年產乾糧10萬噸、濕糧3萬噸。已獲BRCGS、IFS、HACCP、ISO等國際認證。",
+        aboutTitle:"富瑞特科技有限公司",
+        aboutP1:"富瑞特科技擁有兩大生產基地（10,000平方米的寵物用品及電器生產工廠和50,000平方米的食品廠），是中國寵物行業領先的製造商与出口商。我們的寵物用品及電器工廠月產能超過100,000件。",
+        aboutP2:"我們的優勢在於完整的生產鏈：創新設計、深入研發、精密模具製造、先進注塑成型和高效組裝。我們擁有300多項專利和世界一流的認證，包括BRCGS、BSCI、IFS、MSC、ASC和HACCP。",
+        aboutP3:"我們擁有1000名員工的團隊，生產4大類（寵物電器、寵物穿戴用品、寵物玩具、寵物食品及保健品），其中寵物食品及保健品超過100多種細分項，年營業額達1.2億美元。我們提供完整的OEM/ODM、自有品牌及海外倉儲方案（在建基地：沙特利雅得）。",
+        contactTitle:"讓我們攜手合作", contactSub:"無論是OEM/ODM合作、自有品牌方案還是批發詢價——我們的團隊隨時為您服務。",
+        phoneLabel:"電話", formTitle:"發送詢價", formName:"您的姓名", formEmail:"電子郵箱", formMsg:"留言內容", formSend:"發送消息"
+    },
+    pt: {
+        products_nav:"Suprimentos", food_nav:"Alimentos", about_nav:"Sobre Nós", contact_nav:"Contato",
+        heroBadge:"FURRYTALE TECHNOLOGY CO., LTD.",
+        heroTitle:"Design para o Que os Pets Realmente Querem",
+        heroSub:"Fabricante inovador de suprimentos e nutrição premium para pets. Com bases de produção próprias de 50.000m² e mais de 100.000m² de suporte de fábricas parceiras, 300+ patentes e exportações para 50+ países. Confiado por compradores globais.",
+        heroCTA:"Explorar Produtos", heroContact:"Contatar Vendas",
+        stat1:"Área Total de Produção", stat2:"Patentes e Certificados", stat3:"Produção Mensal", stat4:"Membros da Equipe",
+        productsTitle:"Catálogo de Produtos", productsSub:"Descubra nossa gama de suprimentos inovadores e alimentos nutricionais premium para pets.",
+        catAll:"Todos os Produtos", catSupplies:"Suprimentos", catFood:"Alimentos",
+        foodTitle:"Alimentos e Petiscos", foodSub:"Produção anual de 100.000 toneladas de ração seca e 30.000 toneladas úmidas. Certificado BRCGS, IFS, HACCP.",
+        aboutTitle:"Furrytale Technology Co., Ltd.",
+        aboutP1:"A Furrytale Technology opera duas grandes bases de produção (uma instalação de 10.000m² para suprimentos e aparelhos e uma planta de alimentos de 50.000m²), como fabricante e exportador líder na indústria pet da China.",
+        aboutP2:"Nossa força reside em nossa cadeia de produção completa: design inovador, P&D profundo, fabricação de moldes de precisão, moldagem por injeção avançada e montagem eficiente. Detemos mais de 300 patentes e certificações mundiais.",
+        aboutP3:"Com uma equipe de 1.000 membros, produzimos 4 categorias principais com mais de 100 itens alimentares, gerando US$120 milhões em receita anual. Oferecemos soluções completas de OEM/ODM, marca própria e armazenamento no exterior (base em Riade, Arábia Saudita em construção).",
+        contactTitle:"Vamos Trabalhar Juntos", contactSub:"Seja para parcerias OEM/ODM, soluções de marca própria ou consultas de atacado — nossa equipe está pronta para ajudar.",
+        phoneLabel:"Telefone", formTitle:"Enviar uma Consulta", formName:"Seu Nome", formEmail:"Endereço de E-mail", formMsg:"Mensagem", formSend:"Enviar Mensagem"
+    },
+    ja: {
+        products_nav:"用品", food_nav:"ペットフード", about_nav:"会社概要", contact_nav:"お問い合わせ",
+        heroBadge:"FURRYTALE TECHNOLOGY CO., LTD.",
+        heroTitle:"ペットが本当に望むもののためのデザイン",
+        heroSub:"革新的なペット用品とプレミアム栄養フードのメーカー。5万平方メートルの自社生産拠点と10万平方メートルを超える提携工場のサポート、300以上の特許、50カ国以上への輸出。世界中のバイヤーから信頼されています。",
+        heroCTA:"製品を見る", heroContact:"営業に連絡",
+        stat1:"総生産面積", stat2:"特許と認証", stat3:"月間生産量", stat4:"チームメンバー",
+        productsTitle:"製品カタログ", productsSub:"革新的なペット用品とプレミアムな栄養ペットフードのラインナップをご覧ください。",
+        catAll:"すべての製品", catSupplies:"ペット用品", catFood:"ペットフード",
+        foodTitle:"ペットフードとおやつ", foodSub:"年間生産量：ドライフード10万トン、ウェットフード3万トン。BRCGS、IFS、HACCP認証取得。",
+        aboutTitle:"富瑞特科技有限公司 (Furrytale Technology Co., Ltd.)",
+        aboutP1:"富瑞特科技は、中国のペット業界における主要なメーカーおよび輸出業者として、2つの主要な生産拠点（1万平方メートルのペット用品・家電施設と5万平方メートルのフード工場）を運営しています。",
+        aboutP2:"当社の強みは、革新的なデザイン、深い研究開発、精密金型製造、高度な射出成形、効率的な組み立てという完全な生産チェーンにあります。300以上の特許と、BRCGS、BSCI、IFSなどの世界クラスの認証を保持しています。",
+        aboutP3:"1,000名のチームで、ペット用家電、ウェアラブル、玩具、フード＆サプリメントの4大カテゴリーを生産し、年間1.2億ドルの売上を誇ります。OEM/ODM、プライベートブランド、海外倉庫ソリューション（サウジアラビアのリヤド拠点が建設中）を提供しています。",
+        contactTitle:"一緒に働きましょう", contactSub:"OEM/ODMパートナーシップ、プライベートブランドソリューション、または卸売に関するお問い合わせなど、当社のチームがお手伝いいたします。",
+        phoneLabel:"電話番号", formTitle:"お問い合わせを送信", formName:"お名前", formEmail:"メールアドレス", formMsg:"メッセージ", formSend:"メッセージを送信"
+    },
+    ko: {
+        products_nav:"용품", food_nav:"펫 푸드", about_nav:"회사 소개", contact_nav:"문의하기",
+        heroBadge:"FURRYTALE TECHNOLOGY CO., LTD.",
+        heroTitle:"반려동물이 진정으로 원하는 것을 위한 디자인",
+        heroSub:"혁신적인 반려동물 용품 및 프리미엄 영양 사료 제조업체. 5만㎡ 규모의 자사 생산 기지와 10만㎡ 이상의 협력 공장 지원, 300개 이상의 특허 보유, 50개국 이상 수출. 전 세계 바이어들이 신뢰합니다.",
+        heroCTA:"제품 둘러보기", heroContact:"영업 문의",
+        stat1:"총 생산 면적", stat2:"특허 및 인증", stat3:"월간 생산량", stat4:"팀 구성원",
+        productsTitle:"제품 카탈로그", productsSub:"혁신적인 반려동물 용품과 프리미엄 영양 사료 라인업을 확인해 보세요.",
+        catAll:"모든 제품", catSupplies:"반려동물 용품", catFood:"펫 푸드",
+        foodTitle:"펫 푸드 및 간식", foodSub:"연간 생산량: 건식 사료 10만 톤, 습식 사료 3만 톤. BRCGS, IFS, HACCP 인증 획득.",
+        aboutTitle:"푸레이테 과기 유한공사 (Furrytale Technology Co., Ltd.)",
+        aboutP1:"푸레이테 과기는 중국 반려동물 산업의 선도적인 제조 및 수출업체로서, 두 개의 주요 생산 기지(1만㎡ 규모의 용품 및 가전 시설과 5만㎡ 규모의 식품 공장)를 운영하고 있습니다.",
+        aboutP2:"당사의 강점은 혁신적인 디자인, 심층적인 R&D, 정밀 금형 제조, 고급 사출 성형 및 효율적인 조립을 아우르는 완벽한 생산 체인에 있습니다. 300개 이상의 특허와 BRCGS, BSCI, IFS 등 세계 수준의 인증을 보유하고 있습니다.",
+        aboutP3:"1,000명의 팀원과 함께 4대 카테고리(반려동물 가전, 웨어러블, 장난감, 식품 및 영양제)를 생산하며 연간 1억 2천만 달러의 매출을 창출합니다. OEM/ODM, PB 브랜드, 해외 창고 솔루션(사우디아라비아 리야드 기지 건설 중)을 제공합니다.",
+        contactTitle:"함께 협력합시다", contactSub:"OEM/ODM 파트너십, PB 브랜드 솔루션 또는 도매 문의 등 당사 팀이 도와드릴 준비가 되어 있습니다.",
+        phoneLabel:"전화번호", formTitle:"문의 보내기", formName:"이름", formEmail:"이메일 주소", formMsg:"메시지", formSend:"메시지 보내기"
+    },
     es: {
-        products_nav:"Productos", food_nav:"Alimentos", about_nav:"Nosotros", contact_nav:"Contacto",
+        products_nav:"Suministros", food_nav:"Alimentos", about_nav:"Sobre Nosotros", contact_nav:"Contacto",
         heroBadge:"FURRYTALE TECHNOLOGY CO., LTD.",
         heroTitle:"Diseñado para Lo Que las Mascotas Realmente Quieren",
         heroSub:"Fabricante innovador de suministros y nutrición premium para mascotas. Con una base de producción propia de 50.000 m² y más de 100.000 m² de apoyo de fábricas colaboradoras, 300+ patentes y exportaciones a 50+ países. Confiado por compradores globales.",
         heroCTA:"Explorar Productos", heroContact:"Contactar Ventas",
         stat1:"Área Total de Producción", stat2:"Patentes y Certificaciones", stat3:"Producción Mensual", stat4:"Miembros del Equipo",
-        productsTitle:"Productos Inteligentes", productsSub:"Diseno innovador y ingenieria de precision.",
-        catAll:"Todos", catSupplies:"Suministros", catFood:"Alimentos",
-        foodTitle:"Alimentos y Golosinas", foodSub:"Produccion anual de 100.000 toneladas de alimento seco y 30.000 toneladas humedo.",
-        aboutTitle:"Murui Technology Co., Ltd.",
-        aboutP1:"Fabrica moderna de 8.000m\u00B2 con mas de 50 maquinas avanzadas. Capacidad mensual superior a 70.000 unidades.",
-        aboutP2:"Cadena de produccion completa: diseno, I+D, moldes de precision, inyeccion, ensamblaje y ventas globales. Mas de 300 patentes y certificaciones.",
-        aboutP3:"Division de alimentos: instalacion de 170.000m\u00B2, 1.250 miembros, 4 categorias y 600+ variedades. Ingresos anuales de US$109M.",
-        contactTitle:"Trabajemos Juntos", contactSub:"OEM/ODM, marca privada o compras al por mayor.",
-        phoneLabel:"Telefono", formTitle:"Enviar Consulta", formName:"Su Nombre", formEmail:"Correo", formMsg:"Mensaje", formSend:"Enviar"
+        productsTitle:"Catálogo de Productos", productsSub:"Descubra nuestra gama de suministros innovadores y alimentos nutricionales premium para mascotas.",
+        catAll:"Todos los Productos", catSupplies:"Suministros", catFood:"Alimentos",
+        foodTitle:"Alimentos y Golosinas", foodSub:"Producción anual de 100.000 toneladas de alimento seco y 30.000 toneladas húmedo. Certificado BRCGS, IFS, HACCP.",
+        aboutTitle:"Furrytale Technology Co., Ltd.",
+        aboutP1:"Furrytale Technology opera dos grandes bases de producción (una instalación de 10.000m² para suministros y una planta de alimentos de 50.000m²), como fabricante y exportador líder en la industria pet de China.",
+        aboutP2:"Nuestra fuerza reside en nuestra cadena de producción completa: diseño innovador, I+D profunda, fabricación de moldes de precisión, moldeo por inyección avanzado y ensamblaje eficiente. Contamos con más de 300 patentes y certificaciones internacionales.",
+        aboutP3:"Con un equipo de 1.000 miembros, producimos 4 categorías principales con más de 100 artículos alimenticios, generando US$120M en ingresos anuales. Ofrecemos soluciones OEM/ODM, marca propia y almacenamiento en el extranjero (base en Riad, Arabia Saudita en construcción).",
+        contactTitle:"Trabajemos Juntos", contactSub:"Ya sea para asociaciones OEM/ODM, soluciones de marca propia o consultas al por mayor, nuestro equipo está listo para ayudar.",
+        phoneLabel:"Teléfono", formTitle:"Enviar Consulta", formName:"Su Nombre", formEmail:"Correo Electrónico", formMsg:"Mensaje", formSend:"Enviar Mensaje"
     },
     fr: {
         products_nav:"Produits", food_nav:"Nourriture", about_nav:"À Propos", contact_nav:"Contact",
@@ -815,9 +910,9 @@ const translations = {
         heroSub:"Fabricant innovant d'accessoires et de nutrition premium pour animaux. Avec 50 000 m² de base de production en propre et plus de 100 000 m² de support d'usines partenaires, plus de 300 brevets et des exportations vers plus de 50 pays. Approuvé par les acheteurs mondiaux.",
         heroCTA:"Explorer les Produits", heroContact:"Contacter les Ventes",
         stat1:"Surface de Production Totale", stat2:"Brevets et Certifications", stat3:"Production Mensuelle", stat4:"Membres de l'Équipe",
-        productsTitle:"Produits Intelligents", productsSub:"Design innovant et ingénierie de précision.",
-        catAll:"Tous", catSupplies:"Accessoires", catFood:"Nourriture",
-        foodTitle:"Nourriture et Friandises", foodSub:"Production annuelle de 100 000 tonnes de nourriture sèche et 30 000 tonnes humide.",
+        productsTitle:"Catalogue de Produits", productsSub:"Découvrez notre gamme d'accessoires innovants et d'aliments nutritionnels premium pour animaux.",
+        catAll:"Tous les Produits", catSupplies:"Accessoires", catFood:"Nourriture",
+        foodTitle:"Nourriture et Friandises", foodSub:"Production annuelle de 100 000 tonnes de nourriture sèche et 30 000 tonnes humide. Certifié BRCGS, IFS, HACCP.",
         aboutTitle:"Furrytale Technology Co., Ltd.",
         aboutP1:"Furrytale possède deux sites de production (10 000 m² pour les fournitures et 50 000 m² pour l'alimentation). Capacité mensuelle : +100 000 unités.",
         aboutP2:"Chaîne complète : design, R&D, moules de précision et injection. Plus de 300 brevets et certifications (BRCGS, BSCI, HACCP).",
@@ -832,9 +927,9 @@ const translations = {
         heroSub:"Innovativer Hersteller von Heimtierbedarf und Premium-Ernährung. Mit 50.000 m² eigener Produktionsbasis und über 100.000 m² kooperativer Fabrikunterstützung, über 300 Patenten und Exporten in über 50 Länder. Weltweit von Einkäufern geschätzt.",
         heroCTA:"Produkte Entdecken", heroContact:"Vertrieb Kontaktieren",
         stat1:"Gesamtproduktionsfläche", stat2:"Patente & Zertifikate", stat3:"Monatliche Produktion", stat4:"Teammitglieder",
-        productsTitle:"Intelligente Produkte", productsSub:"Innovatives Design trifft Präzisionstechnik.",
-        catAll:"Alle", catSupplies:"Bedarf", catFood:"Tiernahrung",
-        foodTitle:"Tiernahrung & Leckerlis", foodSub:"Jahresproduktion: 100.000 t Trockenfutter und 30.000 t Nassfutter.",
+        productsTitle:"Produktkatalog", productsSub:"Entdecken Sie unser Sortiment an innovativem Tierbedarf und hochwertiger Tiernahrung.",
+        catAll:"Alle Produkte", catSupplies:"Bedarf", catFood:"Tiernahrung",
+        foodTitle:"Tiernahrung & Leckerlis", foodSub:"Jahresproduktion: 100.000 t Trockenfutter und 30.000 t Nassfutter. BRCGS, IFS, HACCP zertifiziert.",
         aboutTitle:"Furrytale Technology Co., Ltd.",
         aboutP1:"Furrytale betreibt zwei Produktionsstandorte (10.000 m² für Bedarf und 50.000 m² für Tiernahrung). Monatliche Kapazität: +100.000 Einheiten.",
         aboutP2:"Komplette Produktionskette: Design, F&E, Präzisionsformen und Spritzguss. Über 300 Patente und Zertifizierungen (BRCGS, BSCI, HACCP).",
@@ -849,9 +944,9 @@ const translations = {
         heroSub:"مصنع مبتكر لمستلزمات الحيوانات الأليفة والتغذية الممتازة. نمتلك قاعدة إنتاج خاصة بمساحة 50,000 متر مربع وأكثر من 100,000 متر مربع من دعم المصانع المتعاونة، 300+ براءة اختراع، وصادرات إلى أكثر من 50 دولة ومنطقة. موضع ثقة المشترين العالميين.",
         heroCTA:"استكشف المنتجات", heroContact:"اتصل بالمبيعات",
         stat1:"إجمالي مساحة الإنتاج", stat2:"براءات وشهادات", stat3:"الإنتاج الشهري", stat4:"أعضاء الفريق",
-        productsTitle:"منتجات ذكية", productsSub:"تصميم مبتكر وهندسة دقيقة.",
-        catAll:"الكل", catSupplies:"مستلزمات", catFood:"طعام",
-        foodTitle:"طعام ومكافآت", foodSub:"إنتاج سنوي 100 ألف طن جاف و 30 ألف طن رطب.",
+        productsTitle:"كتالوج المنتجات", productsSub:"اكتشف مجموعتنا من مستلزمات الحيوانات الأليفة المبتكرة وأطعمة الحيوانات الأليفة الغذائية الممتازة.",
+        catAll:"جميع المنتجات", catSupplies:"مستلزمات", catFood:"طعام",
+        foodTitle:"طعام ومكافآت", foodSub:"إنتاج سنوي 100 ألف طن جاف و 30 ألف طن رطب. حاصل على شهادات BRCGS و IFS و HACCP.",
         aboutTitle:"Furrytale Technology Co., Ltd.",
         aboutP1:"تمتلك شركة Furrytale قاعدتين إنتاجيتين (10,000 م² للمستلزمات و50,000 م² للأغذية). تتجاوز قدرتنا الشهرية 100,000 وحدة.",
         aboutP2:"تكمن قوتنا في سلسلة الإنتاج الكاملة: التصميم، البحث والتطوير، صناعة القوالب، والحقن المتقدم. نمتلك 300+ براءة اختراع وشهادات عالمية.",
