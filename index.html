@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Furrytale - Premium Pet Supplies | Murui Technology</title>
     <meta name="description" content="Furrytale by Murui Technology - Premium smart pet feeders, water fountains, pet food & treats. Direct from manufacturer with 8000m² factory, 300+ patents, global export.">
+    <!-- EmailJS SDK — sends form directly to danniallcc@gmail.com, no backend needed -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>emailjs.init({ publicKey: 'YOUR_PUBLIC_KEY' });</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
@@ -530,13 +533,10 @@
             </div>
         </div>
 
-        <!-- RIGHT: Inquiry Form → Formspree → danniallcc@gmail.com -->
+        <!-- RIGHT: Inquiry Form → EmailJS → danniallcc@gmail.com -->
         <div class="contact-form">
             <h3 data-i18n="formTitle">Send a Buyer Inquiry</h3>
-            <form id="inquiryForm" action="https://formspree.io/f/danniallcc@gmail.com" method="POST" novalidate>
-                <!-- hidden reply-to field -->
-                <input type="hidden" name="_subject" value="New Buyer Inquiry — Furrytale / Murui Technology">
-                <input type="hidden" name="_next" value="">
+            <form id="inquiryForm" novalidate>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -885,21 +885,29 @@ function updateLanguage(lang) {
 
 document.getElementById('langSelector').addEventListener('change', e => updateLanguage(e.target.value));
 
-/* ═══════ INQUIRY FORM — Formspree AJAX ═══════ */
+/* ═══════ INQUIRY FORM — EmailJS → danniallcc@gmail.com ═══════
+   EmailJS config:
+     Service ID : service_furrytale   (Gmail service connected to danniallcc@gmail.com)
+     Template ID: template_inquiry     (template with {{from_name}}, {{from_email}}, etc.)
+     Public Key : set via emailjs.init() in <head>
+══════════════════════════════════════════════════════════════ */
 (function() {
     const form = document.getElementById('inquiryForm');
     const btn  = document.getElementById('inquirySubmitBtn');
     const fb   = document.getElementById('formFeedback');
+
+    const EMAILJS_SERVICE_ID  = 'service_furrytale';
+    const EMAILJS_TEMPLATE_ID = 'template_inquiry';
 
     if (!form) return;
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Basic client-side validation
         const name    = form.querySelector('[name="name"]').value.trim();
         const email   = form.querySelector('[name="email"]').value.trim();
         const message = form.querySelector('[name="message"]').value.trim();
+
         if (!name || !email || !message) {
             showFeedback('error', 'Please fill in your name, email, and requirements.');
             return;
@@ -913,21 +921,24 @@ document.getElementById('langSelector').addEventListener('change', e => updateLa
         btn.textContent = 'Sending...';
         fb.style.display = 'none';
 
+        const templateParams = {
+            from_name    : name,
+            from_email   : email,
+            company      : form.querySelector('[name="company"]')?.value.trim() || '—',
+            phone        : form.querySelector('[name="phone"]')?.value.trim() || '—',
+            product      : form.querySelector('[name="product_interest"]')?.value || '—',
+            quantity     : form.querySelector('[name="quantity"]')?.value || '—',
+            message      : message,
+            reply_to     : email,
+        };
+
         try {
-            const res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            });
-            if (res.ok) {
-                showFeedback('success', 'Your inquiry has been sent! We\'ll get back to you within 24 hours.');
-                form.reset();
-            } else {
-                const data = await res.json().catch(() => ({}));
-                showFeedback('error', data.error || 'Something went wrong. Please email us directly at danniallcc@gmail.com');
-            }
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+            showFeedback('success', '✓ Your inquiry has been sent! We\'ll get back to you within 24 hours.');
+            form.reset();
         } catch(err) {
-            showFeedback('error', 'Network error. Please email us directly at danniallcc@gmail.com');
+            console.error('EmailJS error:', err);
+            showFeedback('error', 'Send failed. Please email us directly: danniallcc@gmail.com');
         } finally {
             btn.disabled = false;
             btn.textContent = 'Send Inquiry';
