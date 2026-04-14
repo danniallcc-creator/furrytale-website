@@ -7,7 +7,7 @@
     <meta name="description" content="Furrytale by Murui Technology - Premium smart pet feeders, water fountains, pet food & treats. Direct from manufacturer with 8000m² factory, 300+ patents, global export.">
     <!-- EmailJS SDK — sends form directly to danniallcc@gmail.com, no backend needed -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>emailjs.init({ publicKey: 'YOUR_PUBLIC_KEY' });</script>
+    <script>emailjs.init({ publicKey: 'E9m4JEFZVpRJ8nBvU' });</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <style>
@@ -897,7 +897,7 @@ document.getElementById('langSelector').addEventListener('change', e => updateLa
     const fb   = document.getElementById('formFeedback');
 
     const EMAILJS_SERVICE_ID  = 'service_furrytale';
-    const EMAILJS_TEMPLATE_ID = 'template_inquiry';
+    const EMAILJS_TEMPLATE_ID = 'template_xxxo34l';
 
     if (!form) return;
 
@@ -921,15 +921,42 @@ document.getElementById('langSelector').addEventListener('change', e => updateLa
         btn.textContent = 'Sending...';
         fb.style.display = 'none';
 
+        const company  = form.querySelector('[name="company"]')?.value.trim() || '—';
+        const phone    = form.querySelector('[name="phone"]')?.value.trim() || '—';
+        const product  = form.querySelector('[name="product_interest"]')?.value || '—';
+        const quantity = form.querySelector('[name="quantity"]')?.value || '—';
+
+        // Consolidate all inquiry data into `message` so any template body works
+        const fullMessage = [
+            '=== NEW BUYER INQUIRY ===',
+            '',
+            'Name:     ' + name,
+            'Email:    ' + email,
+            'Company:  ' + company,
+            'Phone:    ' + phone,
+            '',
+            'Product Interest: ' + product,
+            'Order Quantity:   ' + quantity,
+            '',
+            'Requirements:',
+            message,
+            '',
+            '========================',
+            'Reply to: ' + email,
+        ].join('\n');
+
         const templateParams = {
-            from_name    : name,
-            from_email   : email,
-            company      : form.querySelector('[name="company"]')?.value.trim() || '—',
-            phone        : form.querySelector('[name="phone"]')?.value.trim() || '—',
-            product      : form.querySelector('[name="product_interest"]')?.value || '—',
-            quantity     : form.querySelector('[name="quantity"]')?.value || '—',
-            message      : message,
-            reply_to     : email,
+            // Standard EmailJS fields
+            from_name : name,
+            from_email: email,
+            reply_to  : email,
+            to_email  : 'danniallcc@gmail.com',
+            // All inquiry data packed into every variable EmailJS default templates use
+            name      : name,   // used by default "Contact Us" template as {{name}}
+            title     : 'Buyer Inquiry - ' + (company || name),
+            message   : fullMessage,
+            // Extra structured fields for custom templates
+            company, phone, product, quantity,
         };
 
         try {
