@@ -372,8 +372,8 @@
     <div class="nav-inner">
         <a href="#" class="logo">Furrytale</a>
         <div class="nav-links" id="navLinks">
-            <a href="#products" data-i18n="products_nav">Products</a>
-            <a href="#food" data-i18n="food_nav">Pet Food</a>
+            <a href="#products" onclick="renderProducts('supplies'); updateTabStyle('supplies')" data-i18n="products_nav">Supplies</a>
+            <a href="#products" onclick="renderProducts('food'); updateTabStyle('food')" data-i18n="food_nav">Pet Food</a>
             <a href="#about" data-i18n="about_nav">About Us</a>
             <a href="#contact" data-i18n="contact_nav">Contact</a>
             <select id="langSelector">
@@ -432,33 +432,18 @@
 <!-- PRODUCTS SECTION -->
 <section class="section" id="products">
     <div class="section-header">
-        <h2 data-i18n="productsTitle">Smart Pet Products</h2>
-        <p data-i18n="productsSub">Innovative design meets precision engineering. From automatic feeders to cordless water fountains.</p>
+        <h2 data-i18n="productsTitle">Product Catalog</h2>
+        <p data-i18n="productsSub">Discover our range of innovative pet supplies and premium nutritional pet food.</p>
         <div class="section-divider"></div>
     </div>
 
     <div class="cat-tabs" id="catTabs">
         <button class="cat-tab active" data-cat="all" data-i18n="catAll">All Products</button>
-        <button class="cat-tab" data-cat="smart-feeder" data-i18n="catFeeders">Smart Feeders</button>
-        <button class="cat-tab" data-cat="wet-feeder" data-i18n="catWet">Wet Food Feeders</button>
-        <button class="cat-tab" data-cat="fountain" data-i18n="catFountains">Water Fountains</button>
-        <button class="cat-tab" data-cat="combo" data-i18n="catCombos">Combos</button>
-        <button class="cat-tab" data-cat="litter" data-i18n="catLitter">Cat Litter</button>
+        <button class="cat-tab" data-cat="supplies" data-i18n="catSupplies">Pet Supplies</button>
+        <button class="cat-tab" data-cat="food" data-i18n="catFood">Pet Food</button>
     </div>
 
     <div class="product-grid" id="productGrid"></div>
-</section>
-
-<!-- PET FOOD SECTION -->
-<section class="about-bg" id="food">
-    <div class="section" style="padding-top:5rem; padding-bottom:5rem;">
-        <div class="section-header">
-            <h2 data-i18n="foodTitle">Pet Food & Treats</h2>
-            <p data-i18n="foodSub">Annual output of 100,000 tons dried food and 30,000 tons wet food. BRC, IFS, HACCP certified.</p>
-            <div class="section-divider"></div>
-        </div>
-        <div class="food-showcase" id="foodGrid"></div>
-    </div>
 </section>
 
 <!-- ABOUT SECTION -->
@@ -606,152 +591,147 @@
 <script>
 /* ═══════ PRODUCT DATA ═══════ */
 const products = [
-    // Smart Feeders
-    { id:"F9", cat:"smart-feeder", name:'"FUN" Pet Feeder F9', img:"images/smart_feeder.jpg",
+    // --- PET SUPPLIES ---
+    { id:"F9", cat:"supplies", name:'"FUN" Pet Feeder F9', img:"images/smart_feeder.jpg",
       features:["3.5L","Ceramic Bowl","180-Day Battery","10 Meals/Day"],
       specs:"Material: ABS + Ceramic | Portion: 10g (5g opt.) | Food: Dry 5~15mm, freeze-dried" },
-    { id:"F11", cat:"smart-feeder", name:'"Keeper" Smart Feeder F11', img:"images/smart_feeder.jpg",
+    { id:"F11", cat:"supplies", name:'"Keeper" Smart Feeder F11', img:"images/smart_feeder.jpg",
       features:["4.5L","160° Camera","Night Vision","Triple Seal"],
       specs:"Material: ABS | Versions: WiFi/Camera/LED/Rechargeable | 4 or 10 meals/day" },
-    { id:"F14", cat:"smart-feeder", name:"Automatic Feeder F14", img:"images/smart_feeder.jpg",
+    { id:"F14", cat:"supplies", name:"Automatic Feeder F14", img:"images/smart_feeder.jpg",
       features:["3L","4 Meals/Day","Voice Recording","180-Day Battery"],
       specs:"Material: ABS + Stainless Steel | Smallest size, best value" },
-    { id:"F15", cat:"smart-feeder", name:"5G Smart Cage Feeder F15", img:"images/smart_feeder.jpg",
+    { id:"F15", cat:"supplies", name:"5G Smart Cage Feeder F15", img:"images/smart_feeder.jpg",
       features:["1.8L","5G WiFi","HD Camera","Cage Mount"],
       specs:"World's first hanging cage feeder | Dual food outlets | 2MP camera, two-way audio" },
-    { id:"F17", cat:"smart-feeder", name:"5G Smart Pet Feeder F17", img:"images/smart_feeder.jpg",
+    { id:"F17", cat:"supplies", name:"5G Smart Pet Feeder F17", img:"images/smart_feeder.jpg",
       features:["4L","5G WiFi","3MP Camera","Privacy Cover"],
       specs:"Visible bowl design | 10 meals/day | Dry food 5~15mm, freeze-dried" },
-    { id:"F18", cat:"smart-feeder", name:"Smart Cat Feeder F18", img:"images/smart_feeder.jpg",
+    { id:"F18", cat:"supplies", name:"Smart Cat Feeder F18", img:"images/smart_feeder.jpg",
       features:["2.8L","Dual Buckets","160° Camera","5G WiFi"],
       specs:"1080P 2MP camera | Night vision | Real-time monitoring & talking" },
-
-    // Wet Food Feeders
-    { id:"F13", cat:"wet-feeder", name:"Six Meals Pro Feeder F13", img:"images/wet_feeder.jpg",
+    { id:"F13", cat:"supplies", name:"Six Meals Pro Feeder F13", img:"images/wet_feeder.jpg",
       features:["6 Meals","Ice Pack Fresh","Rechargeable","30-Day Battery"],
       specs:"200ml x 6 trays | 3600mAh battery | Type-C charging | Bestseller" },
-    { id:"F19", cat:"wet-feeder", name:"Semi-Wet Six Meals F19", img:"images/wet_feeder.jpg",
+    { id:"F19", cat:"supplies", name:"Semi-Wet Six Meals F19", img:"images/wet_feeder.jpg",
       features:["6 Meals","Meal Covers","Cordless","180-Day Battery"],
       specs:"200ml x 6 trays | 3x AA batteries | 2 recycling ice packs" },
-    { id:"F22", cat:"wet-feeder", name:"Easy Pet Feeder F22", img:"images/wet_feeder.jpg",
+    { id:"F22", cat:"supplies", name:"Easy Pet Feeder F22", img:"images/wet_feeder.jpg",
       features:["350ml","Ice Pack","Anti-Slip","365-Day Battery"],
       specs:"1x AA battery | 48H timer | Portable, suitable for any place" },
-    { id:"F25", cat:"wet-feeder", name:"IR Sensor Fresh Bowl F25", img:"images/wet_feeder.jpg",
+    { id:"F25", cat:"supplies", name:"IR Sensor Fresh Bowl F25", img:"images/wet_feeder.jpg",
       features:["400ml","IR Sensor","Weight ±1g","3600mAh"],
       specs:"SUS304 stainless steel | Auto-open on pet approach | g/oz toggle" },
-    { id:"F26", cat:"wet-feeder", name:"Semi-Wet Four Meals F26", img:"images/wet_feeder.jpg",
+    { id:"F26", cat:"supplies", name:"Semi-Wet Four Meals F26", img:"images/wet_feeder.jpg",
       features:["4 Meals","Wide Bowl","Cordless","360-Day Battery"],
       specs:"240ml x 4 trays | 4x AA batteries | 2 recycling ice packs" },
-
-    // Water Fountains
-    { id:"W4", cat:"fountain", name:"Cordless Fountain W4", img:"images/water_fountain.jpg",
+    { id:"W4", cat:"supplies", name:"Cordless Fountain W4", img:"images/water_fountain.jpg",
       features:["2.5L","5000mAh","30dB Quiet","Triple Filter"],
       specs:"30-day battery | Wireless pump | Easy clean" },
-    { id:"W4-S1", cat:"fountain", name:"Stainless Cordless W4-S1", img:"images/water_fountain.jpg",
+    { id:"W4-S1", cat:"supplies", name:"Stainless Cordless W4-S1", img:"images/water_fountain.jpg",
       features:["3.2L","SUS304","90-Day Battery","3 Modes"],
       specs:"Timer/Induction/Continuous flow | 200ml emergency reserve" },
-    { id:"W5", cat:"fountain", name:"Ceramic Fountain W5", img:"images/ceramic_fountain.jpg",
+    { id:"W5", cat:"supplies", name:"Ceramic Fountain W5", img:"images/ceramic_fountain.jpg",
       features:["2L","Ceramic","Soothing Flow","Advanced Filter"],
       specs:"Premium ceramic material | Fountain-style water flow" },
-    { id:"W7", cat:"fountain", name:"'Clover' Fountain W7", img:"images/water_fountain.jpg",
+    { id:"W7", cat:"supplies", name:"'Clover' Fountain W7", img:"images/water_fountain.jpg",
       features:["2L","Waterfall 360°","Quad Purify","35dB"],
       specs:"BPA-free PP | All-angle drinking area | 24/7 circulation" },
-    { id:"W8", cat:"fountain", name:"Stainless Steel Fountain W8", img:"images/water_fountain.jpg",
+    { id:"W8", cat:"supplies", name:"Stainless Steel Fountain W8", img:"images/water_fountain.jpg",
       features:["3L","SUS304","360° Round","Multi-Pet"],
       specs:"Easy clean stainless tray | Prevents black chin" },
-    { id:"W9", cat:"fountain", name:"Simple Silent Fountain W9", img:"images/water_fountain.jpg",
+    { id:"W9", cat:"supplies", name:"Simple Silent Fountain W9", img:"images/water_fountain.jpg",
       features:["2.4L","Dual Spout","Water Window","Ultra Silent"],
       specs:"Budget-friendly | Extra silent accessory included" },
-    { id:"W10", cat:"fountain", name:"Wireless Silent W10", img:"images/water_fountain.jpg",
+    { id:"W10", cat:"supplies", name:"Wireless Silent W10", img:"images/water_fountain.jpg",
       features:["2L","Easy Setup","Triple Filter","Dual Mode"],
       specs:"Timer & continuous flow | Wireless pump | Optional 5000mAh battery" },
-    { id:"W11", cat:"fountain", name:"Visual Filter SS W11-S1", img:"images/water_fountain.jpg",
+    { id:"W11", cat:"supplies", name:"Visual Filter SS W11-S1", img:"images/water_fountain.jpg",
       features:["3.2L","SUS304","Transparent Filter","3-Month Life"],
       specs:"Triple-layer filtration | Maifan stone + zeolite + activated carbon" },
-    { id:"W12", cat:"fountain", name:"Smart Battery SS W12", img:"images/water_fountain.jpg",
+    { id:"W12", cat:"supplies", name:"Smart Battery SS W12", img:"images/water_fountain.jpg",
       features:["3.2L","4000mAh","IR Sensor","Smart Alerts"],
       specs:"SUS304 | Low water & filter reminders | 30-day battery" },
-
-    // Combos
-    { id:"FW1", cat:"combo", name:"Feeder+Fountain Combo FW1", img:"images/smart_feeder.jpg",
+    { id:"FW1", cat:"supplies", name:"Feeder+Fountain Combo FW1", img:"images/smart_feeder.jpg",
       features:["F14 + W7","Space Saver","One Box","1.4kg"],
       specs:"Industry-first combo | Compact size, high value" },
-    { id:"FW2", cat:"combo", name:"Feeder+Fountain Combo FW2", img:"images/smart_feeder.jpg",
+    { id:"FW2", cat:"supplies", name:"Feeder+Fountain Combo FW2", img:"images/smart_feeder.jpg",
       features:["F17 + W8","Space Saver","One Box","2.72kg"],
       specs:"Industry-first combo | WiFi/Camera versions available" },
-
-    // Cat Litter
-    { id:"BP01", cat:"litter", name:"Auto Cat Litter Box BP01", img:"images/cat_litter_box.jpg",
+    { id:"BP01", cat:"supplies", name:"Auto Cat Litter Box BP01", img:"images/cat_litter_box.jpg",
       features:["WiFi App","10L Capacity","50cm Long","Smart Track"],
       specs:"Fits cats up to 12 lbs | Week-long trip capacity | 2.4G smart control" },
-    { id:"CL1", cat:"litter", name:"Cassava Cat Litter", img:"images/cat_litter_box.jpg",
+    { id:"CL1", cat:"supplies", name:"Cassava Cat Litter", img:"images/cat_litter_box.jpg",
       features:["Eco-Friendly","Strong Clump","Dust-Free","Water Soluble"],
       specs:"Green cassava raw materials | Flushable" },
-    { id:"CL2", cat:"litter", name:"Occult Blood Test Tofu Litter", img:"images/cat_litter_box.jpg",
+    { id:"CL2", cat:"supplies", name:"Occult Blood Test Tofu Litter", img:"images/cat_litter_box.jpg",
       features:["Health Monitor","Color Change","0.1% Detection","Natural"],
       specs:"White-to-blue-green color change | Detects hemoglobin concentration" },
-];
 
-const foodItems = [
-    { name:"Creamy Puree Treats", img:"images/pet_food.jpg",
-      desc:"Insoluble puree, complete & balanced options. Multiple flavors including chicken, tuna, and salmon." },
-    { name:"Soft Roll Cat Bites", img:"images/pet_food.jpg",
-      desc:"Available in chicken, tuna, salmon, and chicken + cheese flavors." },
-    { name:"Retorted Cat Treats", img:"images/pet_food.jpg",
-      desc:"Chicken, smoked fish, grilled chicken, tuna fish, and grilled mackerel." },
-    { name:"Wet Treats & Toppers", img:"images/pet_food.jpg",
-      desc:"Premium wet treats in chicken, duck, salmon, rabbit, and tuna. Perfect as meal toppers." },
-    { name:"Soups & Broths", img:"images/pet_food.jpg",
-      desc:"Nutritious pet soups and broths for enhanced hydration and flavor." },
-    { name:"Canned Pet Food", img:"images/pet_food.jpg",
-      desc:"Complete canned meals with premium ingredients. Multiple recipes available." },
-    { name:"Oven Baked Pet Food", img:"images/pet_food.jpg",
-      desc:"Complete & balanced. No meat meal, wheat gluten, wheat, corn, soy, or artificial flavors." },
-    { name:"Nutri+ Chewing Treats", img:"images/pet_food.jpg",
-      desc:"High digestibility. Min 20% crude protein, 17% crude fat. Vegetable and meat varieties." },
-    { name:"Dried Meat Treats", img:"images/pet_food.jpg",
-      desc:"Premium dried meat treats made from quality poultry, fish, and other proteins." },
-    { name:"Private Label Service", img:"images/pet_food.jpg",
-      desc:"OEM/ODM packaging solutions. Custom formulations and branding for your market." },
+    // --- PET FOOD ---
+    { id:"FD1", cat:"food", name:"Creamy Puree Treats", img:"images/pet_food.jpg",
+      features:["Insoluble Puree","Creamy Texture","Nutritious"],
+      specs:"Flavors: Chicken, Tuna, Salmon, Chicken+Cheese. Perfect for bonding time." },
+    { id:"FD2", cat:"food", name:"Soft Roll Cat Bites", img:"images/pet_food.jpg",
+      features:["High Meat Content","Soft & Chewy","Grain Free"],
+      specs:"Available in Chicken, Tuna, and Salmon. High digestibility for all life stages." },
+    { id:"FD3", cat:"food", name:"Retorted Cat Treats", img:"images/pet_food.jpg",
+      features:["Steamed & Grilled","Natural Flavor","No Additives"],
+      specs:"Chicken, Smoked Fish, Grilled Mackerel. Locks in nutrition and natural juices." },
+    { id:"FD4", cat:"food", name:"Wet Treats & Toppers", img:"images/pet_food.jpg",
+      features:["Soup & Broth","Hydration Boost","Topper"],
+      specs:"Chicken, Duck, Rabbit, Tuna. Ideal for increasing water intake in cats." },
+    { id:"FD5", cat:"food", name:"Canned Pet Food", img:"images/pet_food.jpg",
+      features:["Complete & Balanced","Premium Protein","GRAIN FREE"],
+      specs:"Made with fresh poultry and fish. Meets AAFCO standards for complete nutrition." },
+    { id:"FD6", cat:"food", name:"Oven Baked Pet Food", img:"images/pet_food.jpg",
+      features:["Nutri-Lock Tech","90% Meat","Low Carb"],
+      specs:"No meat meal, no wheat gluten, no corn/soy. High-quality baked kibble." },
+    { id:"FD7", cat:"food", name:"Nutri+ Chewing Treats", img:"images/pet_food.jpg",
+      features:["Dental Care","High Digestibility","20% Protein"],
+      specs:"Vegetable and meat flavors. Rawhide-free, starch-based chewing treats." },
+    { id:"FD8", cat:"food", name:"Dried Meat Treats", img:"images/pet_food.jpg",
+      features:["100% Meat","Oven Dried","Single Protein"],
+      specs:"Chicken/Duck breast, Salmon, Tuna, Cod. No artificial colors or preservatives." },
 ];
 
 /* ═══════ RENDER ═══════ */
 function renderProducts(filter = 'all') {
     const grid = document.getElementById('productGrid');
     const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
-    grid.innerHTML = filtered.map(p => `
-        <div class="product-card fade-in visible">
-            <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
-            <div class="product-body">
-                <div class="product-cat">${p.cat.replace('-', ' ')}</div>
-                <div class="product-name">${p.name}</div>
-                <ul class="product-features">
-                    ${p.features.map(f => `<li>${f}</li>`).join('')}
-                </ul>
-                <div class="product-specs">${p.specs}</div>
+    const lang = document.documentElement.lang || 'en';
+    
+    grid.innerHTML = filtered.map(p => {
+        const catKey = p.cat === 'food' ? 'catFood' : 'catSupplies';
+        const catText = (translations[lang] && translations[lang][catKey]) ? translations[lang][catKey] : (p.cat === 'food' ? 'Pet Food' : 'Pet Supplies');
+        
+        return `
+            <div class="product-card fade-in visible">
+                <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                <div class="product-body">
+                    <div class="product-cat">${catText}</div>
+                    <div class="product-name">${p.name}</div>
+                    <ul class="product-features">
+                        ${p.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <div class="product-specs">${p.specs}</div>
+                </div>
             </div>
-        </div>
-    `).join('');
-}
-
-function renderFood() {
-    const grid = document.getElementById('foodGrid');
-    grid.innerHTML = foodItems.map(f => `
-        <div class="food-card fade-in visible">
-            <div class="food-img"><img src="${f.img}" alt="${f.name}" loading="lazy"></div>
-            <div class="food-body">
-                <h4>${f.name}</h4>
-                <p>${f.desc}</p>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 /* ═══════ TABS ═══════ */
+function updateTabStyle(cat) {
+    document.querySelectorAll('.cat-tab').forEach(t => {
+        if (t.dataset.cat === cat) t.classList.add('active');
+        else t.classList.remove('active');
+    });
+}
+
 document.getElementById('catTabs').addEventListener('click', e => {
     if (!e.target.classList.contains('cat-tab')) return;
-    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
-    e.target.classList.add('active');
+    updateTabStyle(e.target.dataset.cat);
     renderProducts(e.target.dataset.cat);
 });
 
@@ -764,38 +744,38 @@ document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 /* ═══════ i18n ═══════ */
 const translations = {
     en: {
-        products_nav:"Products", food_nav:"Pet Food", about_nav:"About Us", contact_nav:"Contact",
+        products_nav:"Supplies", food_nav:"Pet Food", about_nav:"About Us", contact_nav:"Contact",
         heroBadge:"MURUI TECHNOLOGY CO., LTD.",
         heroTitle:"Design for What Pets Truly Want",
-        heroSub:"From smart feeders to premium nutrition — we manufacture innovative pet products trusted by brands worldwide. 8,000m\u00B2 factory, 300+ patents, exported to 50+ countries.",
+        heroSub:"From smart feeders to premium nutrition — we manufacture innovative pet products trusted by brands worldwide. 8,000m² factory, 300+ patents, exported to 50+ countries.",
         heroCTA:"Explore Products", heroContact:"Contact Sales",
         stat1:"Factory Floor Area", stat2:"Patents & Certifications", stat3:"Monthly Production", stat4:"Team Members",
-        productsTitle:"Smart Pet Products", productsSub:"Innovative design meets precision engineering. From automatic feeders to cordless water fountains.",
-        catAll:"All Products", catFeeders:"Smart Feeders", catWet:"Wet Food Feeders", catFountains:"Water Fountains", catCombos:"Combos", catLitter:"Cat Litter",
+        productsTitle:"Product Catalog", productsSub:"Discover our range of innovative pet supplies and premium nutritional pet food.",
+        catAll:"All Products", catSupplies:"Pet Supplies", catFood:"Pet Food",
         foodTitle:"Pet Food & Treats", foodSub:"Annual output of 100,000 tons dried food and 30,000 tons wet food. BRC, IFS, HACCP certified.",
         aboutTitle:"Murui Technology Co., Ltd.",
-        aboutP1:"Founded as a focused pet industry manufacturer, Murui Technology operates an 8,000m\u00B2 modern factory equipped with 50+ advanced processing machines. Our monthly production capacity exceeds 70,000 units.",
+        aboutP1:"Founded as a focused pet industry manufacturer, Murui Technology operates an 8,000m² modern factory equipped with 50+ advanced processing machines. Our monthly production capacity exceeds 70,000 units.",
         aboutP2:"Our strength lies in the full production chain: from innovative design and in-depth R&D, to precision mold-making, advanced injection molding, efficient assembly, and professional global sales. With 300+ patents, certifications, and trademarks, we deliver quality you can trust.",
-        aboutP3:"Our pet food division operates a 170,000m\u00B2 facility with 1,250 team members, producing 4 categories and 600+ varieties of pet food with US$109M annual revenue.",
+        aboutP3:"Our pet food division operates a 170,000m² facility with 1,250 team members, producing 4 categories and 600+ varieties of pet food with US$109M annual revenue.",
         contactTitle:"Let's Work Together", contactSub:"Whether you're looking for OEM/ODM partnerships, private label solutions, or wholesale inquiries — our team is ready to help.",
         phoneLabel:"Phone", formTitle:"Send an Inquiry", formName:"Your Name", formEmail:"Email Address", formMsg:"Message", formSend:"Send Message"
     },
     zh: {
-        products_nav:"\u4EA7\u54C1\u4E2D\u5FC3", food_nav:"\u5BA0\u7269\u98DF\u54C1", about_nav:"\u5173\u4E8E\u6211\u4EEC", contact_nav:"\u8054\u7CFB\u6211\u4EEC",
-        heroBadge:"\u7267\u745E\u79D1\u6280\u6709\u9650\u516C\u53F8",
-        heroTitle:"\u4E13\u4E3A\u5BA0\u7269\u771F\u6B63\u6240\u9700\u800C\u8BBE\u8BA1",
-        heroSub:"\u4ECE\u667A\u80FD\u5582\u98DF\u5668\u5230\u4F18\u8D28\u5BA0\u7269\u8425\u517B\u2014\u2014\u6211\u4EEC\u7814\u53D1\u751F\u4EA7\u521B\u65B0\u5BA0\u7269\u4EA7\u54C1\uFF0C\u6DF1\u53D7\u5168\u7403\u54C1\u724C\u4FE1\u8D56\u30028,000m\u00B2\u5DE5\u5382\uFF0C300+\u4E13\u5229\uFF0C\u51FA\u53E350+\u4E2A\u56FD\u5BB6\u3002",
-        heroCTA:"\u63A2\u7D22\u4EA7\u54C1", heroContact:"\u8054\u7CFB\u9500\u552E",
-        stat1:"\u5DE5\u5382\u9762\u79EF", stat2:"\u4E13\u5229\u4E0E\u8BA4\u8BC1", stat3:"\u6708\u4EA7\u80FD", stat4:"\u56E2\u961F\u6210\u5458",
-        productsTitle:"\u667A\u80FD\u5BA0\u7269\u4EA7\u54C1", productsSub:"\u521B\u65B0\u8BBE\u8BA1\u4E0E\u7CBE\u5BC6\u5DE5\u7A0B\u7684\u5B8C\u7F8E\u7ED3\u5408\u3002\u4ECE\u81EA\u52A8\u5582\u98DF\u5668\u5230\u65E0\u7EBF\u996E\u6C34\u673A\u3002",
-        catAll:"\u5168\u90E8\u4EA7\u54C1", catFeeders:"\u667A\u80FD\u5582\u98DF\u5668", catWet:"\u6E7F\u7CAE\u5582\u98DF\u5668", catFountains:"\u5BA0\u7269\u996E\u6C34\u673A", catCombos:"\u5957\u88C5\u7EC4\u5408", catLitter:"\u732B\u7802\u4EA7\u54C1",
-        foodTitle:"\u5BA0\u7269\u98DF\u54C1\u4E0E\u96F6\u98DF", foodSub:"\u5E74\u4EA7\u5E72\u7CAE10\u4E07\u5428\u3001\u6E7F\u7CAE3\u4E07\u5428\u3002\u5DF2\u83B7BRC\u3001IFS\u3001HACCP\u7B49\u56FD\u9645\u8BA4\u8BC1\u3002",
-        aboutTitle:"\u7267\u745E\u79D1\u6280\u6709\u9650\u516C\u53F8",
-        aboutP1:"\u4F5C\u4E3A\u4E13\u6CE8\u5BA0\u7269\u884C\u4E1A\u7684\u5236\u9020\u5546\uFF0C\u7267\u745E\u79D1\u6280\u62E5\u67098,000m\u00B2\u73B0\u4EE3\u5316\u5DE5\u5382\uFF0C\u914D\u590750+\u53F0\u5148\u8FDB\u52A0\u5DE5\u8BBE\u5907\u3002\u6708\u4EA7\u80FD\u8D85\u8FC770,000\u53F0\u3002",
-        aboutP2:"\u6211\u4EEC\u7684\u4F18\u52BF\u5728\u4E8E\u5168\u4EA7\u4E1A\u94FE\uFF1A\u4ECE\u521B\u65B0\u8BBE\u8BA1\u3001\u6DF1\u5EA6\u7814\u53D1\u3001\u7CBE\u5BC6\u6A21\u5177\u5236\u9020\u3001\u5148\u8FDB\u6CE8\u5851\u3001\u9AD8\u6548\u88C5\u914D\u5230\u4E13\u4E1A\u5168\u7403\u9500\u552E\u3002\u62E5\u6709300+\u9879\u4E13\u5229\u3001\u8BA4\u8BC1\u548C\u5546\u6807\u3002",
-        aboutP3:"\u5BA0\u7269\u98DF\u54C1\u4E8B\u4E1A\u90E8\u62E5\u6709170,000m\u00B2\u751F\u4EA7\u57FA\u5730\uFF0C1,250\u540D\u56E2\u961F\u6210\u5458\uFF0C\u751F\u4EA74\u5927\u54C1\u7C7B\u3001600+\u79CD\u5BA0\u7269\u98DF\u54C1\uFF0C\u5E74\u8425\u6536\u8FBE1.09\u4EBF\u7F8E\u5143\u3002",
-        contactTitle:"\u8BA9\u6211\u4EEC\u643A\u624B\u5408\u4F5C", contactSub:"\u65E0\u8BBAOEM/ODM\u5408\u4F5C\u3001\u81EA\u6709\u54C1\u724C\u65B9\u6848\u8FD8\u662F\u6279\u53D1\u8BE2\u4EF7\u2014\u2014\u6211\u4EEC\u7684\u56E2\u961F\u968F\u65F6\u4E3A\u60A8\u670D\u52A1\u3002",
-        phoneLabel:"\u7535\u8BDD", formTitle:"\u53D1\u9001\u8BE2\u4EF7", formName:"\u60A8\u7684\u59D3\u540D", formEmail:"\u7535\u5B50\u90AE\u7BB1", formMsg:"\u7559\u8A00\u5185\u5BB9", formSend:"\u53D1\u9001\u6D88\u606F"
+        products_nav:"宠物用品", food_nav:"宠物食品", about_nav:"关于我们", contact_nav:"联系我们",
+        heroBadge:"牧瑞科技有限公司 (MURUI TECHNOLOGY)",
+        heroTitle:"专为宠物真正所需而设计",
+        heroSub:"从智能喂食器到优质宠物营养——我们研发生产创新宠物产品，深受全球品牌信赖。8,000m²工厂，300+专利，出口50+个国家。",
+        heroCTA:"探索产品", heroContact:"联系销售",
+        stat1:"工厂面积", stat2:"专利与认证", stat3:"月产能", stat4:"团队成员",
+        productsTitle:"产品目录", productsSub:"探索我们的创新宠物用品系列和优质营养宠物食品。",
+        catAll:"全部商品", catSupplies:"宠物用品", catFood:"宠物食品",
+        foodTitle:"宠物食品与零食", foodSub:"年产干粮10万吨、湿粮3万吨。已获BRC、IFS、HACCP等国际认证。",
+        aboutTitle:"牧瑞科技有限公司",
+        aboutP1:"作为专注于宠物行业的制造商，牧瑞科技拥有8,000m²现代化工厂，配备50+台先进加工设备。月产能超过70,000台。",
+        aboutP2:"我们的优势在于全产业链：从创新设计、深度研发、精密模具制造、先进注塑、高效装配到专业全球销售。拥有300+项专利、认证和商标。",
+        aboutP3:"宠物食品事业部拥有170,000m²生产基地，1,250名团队成员，生产4大品类、600+种宠物食品，年营收达1.09亿美元。",
+        contactTitle:"让我们携手合作", contactSub:"无论是OEM/ODM合作、自有品牌方案还是批发询价——我们的团队随时为您服务。",
+        phoneLabel:"电话", formTitle:"发送询价", formName:"您的姓名", formEmail:"电子邮箱", formMsg:"留言内容", formSend:"发送消息"
     },
     es: {
         products_nav:"Productos", food_nav:"Alimentos", about_nav:"Nosotros", contact_nav:"Contacto",
@@ -805,7 +785,7 @@ const translations = {
         heroCTA:"Explorar Productos", heroContact:"Contactar Ventas",
         stat1:"Area de Fabrica", stat2:"Patentes y Certificaciones", stat3:"Produccion Mensual", stat4:"Miembros del Equipo",
         productsTitle:"Productos Inteligentes", productsSub:"Diseno innovador y ingenieria de precision.",
-        catAll:"Todos", catFeeders:"Comederos", catWet:"Comida Humeda", catFountains:"Fuentes", catCombos:"Combos", catLitter:"Arena",
+        catAll:"Todos", catSupplies:"Suministros", catFood:"Alimentos",
         foodTitle:"Alimentos y Golosinas", foodSub:"Produccion anual de 100.000 toneladas de alimento seco y 30.000 toneladas humedo.",
         aboutTitle:"Murui Technology Co., Ltd.",
         aboutP1:"Fabrica moderna de 8.000m\u00B2 con mas de 50 maquinas avanzadas. Capacidad mensual superior a 70.000 unidades.",
@@ -822,7 +802,7 @@ const translations = {
         heroCTA:"Explorer les Produits", heroContact:"Contacter les Ventes",
         stat1:"Surface d'Usine", stat2:"Brevets et Certifications", stat3:"Production Mensuelle", stat4:"Membres de l'Equipe",
         productsTitle:"Produits Intelligents", productsSub:"Design innovant et ingenierie de precision.",
-        catAll:"Tous", catFeeders:"Distributeurs", catWet:"Nourriture Humide", catFountains:"Fontaines", catCombos:"Combos", catLitter:"Litiere",
+        catAll:"Tous", catSupplies:"Accessoires", catFood:"Nourriture",
         foodTitle:"Nourriture et Friandises", foodSub:"Production annuelle de 100 000 tonnes de nourriture seche et 30 000 tonnes humide.",
         aboutTitle:"Murui Technology Co., Ltd.",
         aboutP1:"Usine moderne de 8 000m\u00B2 avec plus de 50 machines. Capacite mensuelle depassant 70 000 unites.",
@@ -839,7 +819,7 @@ const translations = {
         heroCTA:"Produkte Entdecken", heroContact:"Vertrieb Kontaktieren",
         stat1:"Fabrikflache", stat2:"Patente & Zertifikate", stat3:"Monatliche Produktion", stat4:"Teammitglieder",
         productsTitle:"Intelligente Produkte", productsSub:"Innovatives Design trifft Prazisionstechnik.",
-        catAll:"Alle", catFeeders:"Futterautomaten", catWet:"Nassfutter", catFountains:"Brunnen", catCombos:"Kombis", catLitter:"Katzenstreu",
+        catAll:"Alle", catSupplies:"Bedarf", catFood:"Tiernahrung",
         foodTitle:"Tiernahrung & Leckerlis", foodSub:"Jahresproduktion: 100.000 t Trockenfutter und 30.000 t Nassfutter.",
         aboutTitle:"Murui Technology Co., Ltd.",
         aboutP1:"Moderne Fabrik mit 8.000m\u00B2 und uber 50 Maschinen. Monatliche Kapazitat uber 70.000 Einheiten.",
@@ -856,7 +836,7 @@ const translations = {
         heroCTA:"\u0627\u0633\u062a\u0643\u0634\u0641 \u0627\u0644\u0645\u0646\u062a\u062c\u0627\u062a", heroContact:"\u0627\u062a\u0635\u0644 \u0628\u0627\u0644\u0645\u0628\u064a\u0639\u0627\u062a",
         stat1:"\u0645\u0633\u0627\u062d\u0629 \u0627\u0644\u0645\u0635\u0646\u0639", stat2:"\u0628\u0631\u0627\u0621\u0627\u062a \u0648\u0634\u0647\u0627\u062f\u0627\u062a", stat3:"\u0627\u0644\u0625\u0646\u062a\u0627\u062c \u0627\u0644\u0634\u0647\u0631\u064a", stat4:"\u0623\u0639\u0636\u0627\u0621 \u0627\u0644\u0641\u0631\u064a\u0642",
         productsTitle:"\u0645\u0646\u062a\u062c\u0627\u062a \u0630\u0643\u064a\u0629", productsSub:"\u062a\u0635\u0645\u064a\u0645 \u0645\u0628\u062a\u0643\u0631 \u0648\u0647\u0646\u062f\u0633\u0629 \u062f\u0642\u064a\u0642\u0629.",
-        catAll:"\u0627\u0644\u0643\u0644", catFeeders:"\u0645\u0648\u0632\u0639\u0627\u062a", catWet:"\u0637\u0639\u0627\u0645 \u0631\u0637\u0628", catFountains:"\u0646\u0648\u0627\u0641\u064a\u0631", catCombos:"\u0645\u062c\u0645\u0648\u0639\u0627\u062a", catLitter:"\u0631\u0645\u0644 \u0642\u0637\u0637",
+        catAll:"\u0627\u0644\u0643\u0644", catSupplies:"\u0645\u0633\u062a\u0644\u0632\u0645\u0627\u062a", catFood:"\u0637\u0639\u0627\u0645",
         foodTitle:"\u0637\u0639\u0627\u0645 \u0648\u0645\u0643\u0627\u0641\u0622\u062a", foodSub:"\u0625\u0646\u062a\u0627\u062c \u0633\u0646\u0648\u064a 100 \u0623\u0644\u0641 \u0637\u0646 \u062c\u0627\u0641 \u0648 30 \u0623\u0644\u0641 \u0637\u0646 \u0631\u0637\u0628.",
         aboutTitle:"Murui Technology Co., Ltd.",
         aboutP1:"\u0645\u0635\u0646\u0639 \u062d\u062f\u064a\u062b 8000 \u0645\u062a\u0631 \u0645\u0631\u0628\u0639 \u0645\u0639 \u0623\u0643\u062b\u0631 \u0645\u0646 50 \u0622\u0644\u0629. \u0637\u0627\u0642\u0629 \u0625\u0646\u062a\u0627\u062c\u064a\u0629 \u0634\u0647\u0631\u064a\u0629 \u062a\u062a\u062c\u0627\u0648\u0632 70 \u0623\u0644\u0641 \u0648\u062d\u062f\u0629.",
@@ -881,6 +861,9 @@ function updateLanguage(lang) {
         document.body.classList.remove('rtl');
         document.documentElement.lang = lang;
     }
+    // Refresh products to update category tags language
+    const activeTab = document.querySelector('.cat-tab.active');
+    if (activeTab) renderProducts(activeTab.dataset.cat);
 }
 
 document.getElementById('langSelector').addEventListener('change', e => updateLanguage(e.target.value));
@@ -981,8 +964,6 @@ document.getElementById('langSelector').addEventListener('change', e => updateLa
 })();
 
 /* ═══════ INIT ═══════ */
-renderProducts();
-renderFood();
 updateLanguage('en');
 </script>
 </body>
