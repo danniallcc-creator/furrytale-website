@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Furrytale - Premium Pet Supplies | Murui Technology</title>
+    <link rel="icon" href="https://sc02.alicdn.com/kf/A272e56883712496884346cc182f4be7ep.png" type="image/png">
     <meta name="description" content="Furrytale by Murui Technology - Premium smart pet feeders, water fountains, pet food & treats. Direct from manufacturer with 8000m² factory, 300+ patents, global export.">
     <!-- EmailJS SDK — sends form directly to danniallcc@gmail.com, no backend needed -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -39,21 +40,22 @@
 
         /* ── NAV ── */
         nav {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            height: 80px; display: flex; align-items: center;
         }
         .nav-inner {
-            max-width: 1280px; margin: 0 auto;
+            max-width: 1320px; margin: 0 auto; width: 100%;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 2rem; height: 72px;
+            padding: 0 2rem;
         }
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.7rem; font-weight: 700;
+            font-size: 1.8rem; font-weight: 800;
             color: var(--brand); text-decoration: none;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
         }
         .nav-links { display: flex; gap: 2rem; align-items: center; }
         .nav-links a {
@@ -74,18 +76,19 @@
         /* ── HERO ── */
         .hero {
             position: relative; overflow: hidden;
-            background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4A 50%, #3A2A20 100%);
-            min-height: 600px; display: flex; align-items: center;
+            background: #0F172A;
+            min-height: 700px; display: flex; align-items: center;
         }
         .hero::before {
             content: ''; position: absolute; inset: 0;
-            background: url('images/hero_banner.jpg') center/cover;
-            opacity: 0.25;
+            background: url('https://sc02.alicdn.com/kf/A272e56883712496884346cc182f4be7ep.png') center/cover;
+            opacity: 0.45; filter: brightness(0.7);
         }
         .hero-content {
             position: relative; z-index: 2;
             max-width: 1280px; margin: 0 auto;
-            padding: 6rem 2rem; color: white;
+            padding: 8rem 2rem; color: white;
+            text-align: left;
         }
         .hero-badge {
             display: inline-block; padding: 6px 16px;
@@ -124,8 +127,8 @@
 
         /* ── STATS BAR ── */
         .stats-bar {
-            background: var(--white); border-bottom: 1px solid var(--border);
-            padding: 2rem 0;
+            background: #F9FAFB; border-bottom: 1px solid var(--border);
+            padding: 3rem 0;
         }
         .stats-inner {
             max-width: 1280px; margin: 0 auto; padding: 0 2rem;
@@ -133,10 +136,12 @@
             text-align: center;
         }
         .stat-item h3 {
-            font-size: 2rem; font-weight: 700; color: var(--brand);
-            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; font-weight: 800; color: var(--brand);
+            font-family: 'Playfair Display', serif; margin-bottom: 4px;
+            transition: transform 0.3s;
         }
-        .stat-item p { font-size: 0.85rem; color: var(--ink-muted); margin-top: 4px; }
+        .stat-item:hover h3 { transform: scale(1.1); }
+        .stat-item p { font-size: 0.85rem; color: var(--ink-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
 
         /* ── SECTIONS ── */
         .section {
@@ -165,14 +170,16 @@
             flex-wrap: wrap; margin-bottom: 3rem;
         }
         .cat-tab {
-            padding: 10px 24px; border-radius: 100px;
+            padding: 12px 28px; border-radius: 100px;
             border: 1px solid var(--border); background: var(--white);
-            font-family: inherit; font-size: 0.9rem; font-weight: 500;
-            color: var(--ink-light); cursor: pointer; transition: all 0.2s;
+            font-family: inherit; font-size: 0.95rem; font-weight: 600;
+            color: var(--ink-light); cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        .cat-tab:hover { border-color: var(--brand); color: var(--brand); }
+        .cat-tab:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .cat-tab.active {
             background: var(--brand); color: white; border-color: var(--brand);
+            box-shadow: 0 4px 15px rgba(232,101,43,0.3);
         }
 
         /* ── PRODUCT GRID ── */
@@ -191,12 +198,16 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.08);
         }
         .product-img {
-            height: 220px; background: #F5F5F0;
+            height: 280px; background: #fdfdfd;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            overflow: hidden; padding: 1.5rem;
         }
         .product-img img {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%; object-fit: contain;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .product-card:hover .product-img img {
+            transform: scale(1.08);
         }
         .product-body { padding: 1.25rem 1.5rem 1.5rem; }
         .product-cat {
@@ -450,7 +461,7 @@
 <section class="section" id="about">
     <div class="about-grid">
         <div class="about-img fade-in">
-            <img src="images/factory.jpg" alt="Murui Technology Factory" loading="lazy">
+            <img src="https://sc02.alicdn.com/kf/A085e2676829741878b59656ea21ac2981.png" alt="Murui Technology Factory" loading="lazy">
         </div>
         <div class="about-text fade-in">
             <h3 data-i18n="aboutTitle">Murui Technology Co., Ltd.</h3>
@@ -592,108 +603,108 @@
 /* ═══════ PRODUCT DATA ═══════ */
 const products = [
     // --- PET SUPPLIES (PDF: furrytale PRODUCT CATALOG) ---
-    { id:"F9", cat:"supplies", name:'"FUN" Pet Feeder F9', img:"images/f9.jpg",
+    { id:"F9", cat:"supplies", name:'"FUN" Pet Feeder F9', img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["Ceramic Bowl","Personalized Recording","180-Day Battery"],
       specs:"3.5L | High-temp porcelain | Dry food 5~15mm & freeze-dried | 10 meals/day" },
-    { id:"F11", cat:"supplies", name:'"Keeper" Smart Feeder F11', img:"images/f11.jpg",
+    { id:"F11", cat:"supplies", name:'"Keeper" Smart Feeder F11', img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["160\u00B0 Wide Camera","Triple-Sealed Freshness","Rechargeable 3600mAh"],
       specs:"4.5L | Night vision | 30-day battery life | Adaptive WiFi/LED versions" },
-    { id:"F14", cat:"supplies", name:"Automatic Feeder F14", img:"images/f14.jpg",
+    { id:"F14", cat:"supplies", name:"Automatic Feeder F14", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["Smallest Size","3L Capacity","180-Day Battery","Voice Recording"],
       specs:"ABS + Stainless Steel | 4 meals/day | Best value model" },
-    { id:"F15", cat:"supplies", name:"5G Smart Cage Feeder F15", img:"images/f15.jpg",
+    { id:"F15", cat:"supplies", name:"5G Smart Cage Feeder F15", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["World's 1st Hanging Feeder","5G WiFi Connection","HD Camera Interaction"],
       specs:"1.8L | Dual food outlet for kibble 1-30mm | Two-way audio | Semi-transparent tank" },
-    { id:"F17", cat:"supplies", name:"5G Smart Pet Feeder F17", img:"images/f17.jpg",
+    { id:"F17", cat:"supplies", name:"5G Smart Pet Feeder F17", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["Visible Bowl","3MP HD Camera","Privacy Camera Cover"],
       specs:"4L | 5G WiFi | Smart feeding with recorded voice | 10 meals/day" },
-    { id:"F18", cat:"supplies", name:"Smart Cat Feeder F18", img:"images/f18.jpg",
+    { id:"F18", cat:"supplies", name:"Smart Cat Feeder F18", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["Dual Buckets","160\u00B0 Wide Camera","5G WiFi Support"],
       specs:"2.8L | 1080P 2MP camera | Real-time monitoring & night vision" },
-    { id:"F13", cat:"supplies", name:"Six Meals Pro Feeder F13", img:"images/f13.jpg",
+    { id:"F13", cat:"supplies", name:"Six Meals Pro Feeder F13", img:"https://sc02.alicdn.com/kf/Ae8a2107af95c4d309c6ef3557282bbc3D.png",
       features:["6 Meals Combo","Ice Pack Freshness","30-Day Rechargeable"],
       specs:"200ml x 6 | Bestseller for wet food | Type-C charging" },
-    { id:"F19", cat:"supplies", name:"Semi-Wet Six Meals F19", img:"images/f19.jpg",
+    { id:"F19", cat:"supplies", name:"Semi-Wet Six Meals F19", img:"https://sc02.alicdn.com/kf/Ae8a2107af95c4d309c6ef3557282bbc3D.png",
       features:["Meal Cover System","2 Recycling Ice Packs","180-Day Battery (3*AA)"],
       specs:"200ml x 6 | Cordless freedom | Suitable for various pet food types" },
-    { id:"F22", cat:"supplies", name:"Easy Pet Feeder F22", img:"images/f22.jpg",
+    { id:"F22", cat:"supplies", name:"Easy Pet Feeder F22", img:"https://sc02.alicdn.com/kf/Ae8a2107af95c4d309c6ef3557282bbc3D.png",
       features:["Portable Size","Ice Pack Fresh","365-Day Battery (1*AA)"],
       specs:"350ml | 48H timer | Anti-slip design | Suitable for any place" },
-    { id:"F25", cat:"supplies", name:"IR Sensor Fresh Bowl F25", img:"images/f25.jpg",
+    { id:"F25", cat:"supplies", name:"IR Sensor Fresh Bowl F25", img:"https://sc02.alicdn.com/kf/Ae8a2107af95c4d309c6ef3557282bbc3D.png",
       features:["Auto-Open on Approach","Weight Tracking (\u00B11g)","30-Day Standby"],
       specs:"400ml | SUS304 | Type-C charging | IR sensor & weight calculation" },
-    { id:"F26", cat:"supplies", name:"Semi-Wet Four Meals F26", img:"images/f26.jpg",
+    { id:"F26", cat:"supplies", name:"Semi-Wet Four Meals F26", img:"https://sc02.alicdn.com/kf/Ae8a2107af95c4d309c6ef3557282bbc3D.png",
       features:["Bowl Wider Design","2 Recycling Ice Packs","360-Day Battery (4*AA)"],
       specs:"240ml x 4 | Real four-meal feeder | Cordless freedom" },
-    { id:"W4", cat:"supplies", name:"Cordless Fountain W4", img:"images/w4.jpg",
+    { id:"W4", cat:"supplies", name:"Cordless Fountain W4", img:"https://sc02.alicdn.com/kf/A4787a1eb04bd4cbaaaa71e54ec7dbab0b.png",
       features:["5000mAh Lithium Battery","Wireless Pump","30dB Ultra Quiet"],
       specs:"2.5L | 30-day battery | Triple filtration | No exposed wires" },
-    { id:"W4-S1", cat:"supplies", name:"Stainless Cordless W4-S1", img:"images/w4s1.jpg",
+    { id:"W4-S1", cat:"supplies", name:"Stainless Cordless W4-S1", img:"https://sc02.alicdn.com/kf/Aec1d978f2721476ebbccedd95d60e87eW.png",
       features:["90-Day Battery Life","SUS304 Antibacterial Steel","3 Water Modes"],
       specs:"3.2L | Timer/Induction/Continuous modes | 200ml emergency reserve" },
-    { id:"W5", cat:"supplies", name:"Ceramic Fountain W5", img:"images/w5.jpg",
+    { id:"W5", cat:"supplies", name:"Ceramic Fountain W5", img:"https://sc02.alicdn.com/kf/A4787a1eb04bd4cbaaaa71e54ec7dbab0b.png",
       features:["Premium Ceramic","'Fountain' Style Flow","Advanced Filter"],
       specs:"2L | Timeless beauty & durability | Healthy & fresh water" },
-    { id:"W7", cat:"supplies", name:"'Clover' Fountain W7", img:"images/w7.jpg",
+    { id:"W7", cat:"supplies", name:"'Clover' Fountain W7", img:"https://sc02.alicdn.com/kf/A4787a1eb04bd4cbaaaa71e54ec7dbab0b.png",
       features:["360\u00B0 Waterfall Flow","Quadruple Purification","BPA-Free PP"],
       specs:"2L | 35dB low noise | 24/7 circulation filtering" },
-    { id:"W8", cat:"supplies", name:"Stainless Steel Fountain W8", img:"images/w8.jpg",
+    { id:"W8", cat:"supplies", name:"Stainless Steel Fountain W8", img:"https://sc02.alicdn.com/kf/Aec1d978f2721476ebbccedd95d60e87eW.png",
       features:["SUS304 Round Tray","3L Capacity","Multi-Pet Use"],
       specs:"Prevents black chin | Easy to clean | Increases water intake" },
-    { id:"W9", cat:"supplies", name:"Simple Silent Fountain W9", img:"images/w9.jpg",
+    { id:"W9", cat:"supplies", name:"Simple Silent Fountain W9", img:"https://sc02.alicdn.com/kf/A4787a1eb04bd4cbaaaa71e54ec7dbab0b.png",
       features:["2.4L Budget Silent","Visible Water Window","Dual Water Modes"],
       specs:"Ultra quiet accessories | Extra water outlet modes" },
-    { id:"W10", cat:"supplies", name:"Wireless Silent W10", img:"images/w10.jpg",
+    { id:"W10", cat:"supplies", name:"Wireless Silent W10", img:"https://sc02.alicdn.com/kf/A4787a1eb04bd4cbaaaa71e54ec7dbab0b.png",
       features:["Effortless Set Up","Wireless Pump","30-Day Battery Option"],
       specs:"2L | Timer & Continuous modes | Triple filtration system" },
-    { id:"W11", cat:"supplies", name:"Visual Filter SS W11-S1", img:"images/w11.jpg",
+    { id:"W11", cat:"supplies", name:"Visual Filter SS W11-S1", img:"https://sc02.alicdn.com/kf/Aec1d978f2721476ebbccedd95d60e87eW.png",
       features:["Transparent Filtration","SUS304 Durable Steel","Visible Water Level"],
       specs:"3.2L | Advanced multi-layer filter | 3-month filter life" },
-    { id:"W12", cat:"supplies", name:"Smart Battery SS W12", img:"images/w12.jpg",
+    { id:"W12", cat:"supplies", name:"Smart Battery SS W12", img:"https://sc02.alicdn.com/kf/Aec1d978f2721476ebbccedd95d60e87eW.png",
       features:["Intelligent Alerts","IR Sensor (2m, 120\u00B0)","4000mAh Battery"],
       specs:"3.2L | SUS304 | Low water & filter reminders | Smart water modes" },
-    { id:"FW1", cat:"supplies", name:"Feeder+Fountain Combo FW1", img:"images/fw1.jpg",
+    { id:"FW1", cat:"supplies", name:"Feeder+Fountain Combo FW1", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["F14 + W7 Set","Save Space & Freight","One Box Solution"],
       specs:"Industry-first combination set | Compact size, high value" },
-    { id:"FW2", cat:"supplies", name:"Feeder+Fountain Combo FW2", img:"images/fw2.jpg",
+    { id:"FW2", cat:"supplies", name:"Feeder+Fountain Combo FW2", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["F17 + W8 Set","5G WiFi Versions","One Box Solution"],
       specs:"Industry-first combination set | Camera/WiFi version options" },
-    { id:"BP01", cat:"supplies", name:"Auto Cat Litter Box BP01", img:"images/bp01.jpg",
+    { id:"BP01", cat:"supplies", name:"Auto Cat Litter Box BP01", img:"https://sc02.alicdn.com/kf/A0c00411acfbc4c62863fab2774a583c86.png",
       features:["Spacious Luxury (50cm)","10L Waste Bin Capacity","Smart App Control"],
       specs:"2.4G WiFi | Tracks litter habits | For cats up to 12 lbs | Week-long trips" },
-    { id:"CL1", cat:"supplies", name:"Cassava Cat Litter", img:"images/cat_litter_box.jpg",
+    { id:"CL1", cat:"supplies", name:"Cassava Cat Litter", img:"https://sc02.alicdn.com/kf/A03c60dcae54f4de3b02ea43f9c20cf13U.png",
       features:["Eco Cassava Raw Materials","Flushable Soluble","Strong Clumping"],
       specs:"Green environmental protection | Dust-free" },
-    { id:"CL2", cat:"supplies", name:"Occult Blood Test Tofu Litter", img:"images/cat_litter_box.jpg",
+    { id:"CL2", cat:"supplies", name:"Occult Blood Test Tofu Litter", img:"https://sc02.alicdn.com/kf/A03c60dcae54f4de3b02ea43f9c20cf13U.png",
       features:["Health Surveillance","Color Change Alert","0.1% Blood Detection"],
       specs:"Detects hemoglobin concentration | White-to-blue-green change" },
 
     // --- PET FOOD (PDF: PETFOOD_ENG_2025 & Quotation) ---
-    { id:"FD1", cat:"food", name:"Chicken Freeze-Dried (Cat/Dog)", img:"images/petfood_dried.jpg",
+    { id:"FD1", cat:"food", name:"Chicken Freeze-Dried (Cat/Dog)", img:"https://sc02.alicdn.com/kf/A03c60dcae54f4de3b02ea43f9c20cf13U.png",
       features:["High Protein \u226546%","Grain Free","Premium Organ Meat"],
       specs:"Chicken 77% + Liver 8% + Egg yolk | With Yucca & Rosemary | AAFCO standard" },
-    { id:"FD2", cat:"food", name:"Yogurt Yogurt Cubes", img:"images/petfood_chews.jpg",
+    { id:"FD2", cat:"food", name:"Yogurt Yogurt Cubes", img:"https://sc02.alicdn.com/kf/A03c60dcae54f4de3b02ea43f9c20cf13U.png",
       features:["Fruit + Yogurt + Milk","Freeze-Dried Texture","Multivitamin Boost"],
       specs:"Flavors: Cranberry, Blueberry, Cat Grass | Probiotic-rich yogurt" },
-    { id:"FD3", cat:"food", name:"Creamy Puree Treats", img:"images/petfood_creamy.jpg",
+    { id:"FD3", cat:"food", name:"Creamy Puree Treats", img:"https://sc02.alicdn.com/kf/A12c3dcd344804fbc9ab5e3d9d456945eO.png",
       features:["Insoluble/Creamy Textures","Hydration Support","Complete & Balanced"],
       specs:"Chicken, Tuna, Salmon, Chicken+Cheese | Lickable puree" },
-    { id:"FD4", cat:"food", name:"Soft Roll Cat Bites", img:"images/petfood_softroll.jpg",
+    { id:"FD4", cat:"food", name:"Soft Roll Cat Bites", img:"https://sc02.alicdn.com/kf/A789bc8f500514189985122d59eacad3bV.png",
       features:["High Meat Content","Nutri-Lock Tech","90% Meat Bites"],
       specs:"Chicken, Tuna, Salmon | Grain-free | High digestibility" },
-    { id:"FD5", cat:"food", name:"Retorted Wet Treats", img:"images/petfood_retorted.jpg",
+    { id:"FD5", cat:"food", name:"Retorted Wet Treats", img:"https://sc02.alicdn.com/kf/A12c3dcd344804fbc9ab5e3d9d456945eO.png",
       features:["Steamed & Grilled","Natural Juices Locked","Zero Additives"],
       specs:"Grilled Chicken, Smoked Fish, Grilled Mackerel | Real meat fillets" },
-    { id:"FD6", cat:"food", name:"Oven Baked Pet Food", img:"images/petfood_oven.jpg",
+    { id:"FD6", cat:"food", name:"Oven Baked Pet Food", img:"https://sc02.alicdn.com/kf/A789bc8f500514189985122d59eacad3bV.png",
       features:["Low Carb Recipe","No Meat Meal","Fresh Meat First"],
       specs:"No wheat gluten, corn, or soy | 90% meat | Complete & Balanced" },
-    { id:"FD7", cat:"food", name:"Nutri+ Chewing Treats", img:"images/petfood_chews.jpg",
+    { id:"FD7", cat:"food", name:"Nutri+ Chewing Treats", img:"https://sc02.alicdn.com/kf/A789bc8f500514189985122d59eacad3bV.png",
       features:["Dental Health Support","Rawhide-Free","High Digestibility"],
       specs:"Vegetable & meat flavors | Min 20% Protein | Min 17% Fat" },
-    { id:"FD8", cat:"food", name:"Dried Meat Fillets", img:"images/petfood_dried.jpg",
+    { id:"FD8", cat:"food", name:"Dried Meat Fillets", img:"https://sc02.alicdn.com/kf/A03c60dcae54f4de3b02ea43f9c20cf13U.png",
       features:["100% Single Protein","Oven Dried","Pure Muscle Meat"],
       specs:"Chicken Breast, Duck Breast, Cod Fillets | Natural & Nutritious" },
-    { id:"FD9", cat:"food", name:"Canned Pet Food", img:"images/petfood_canned.jpg",
+    { id:"FD9", cat:"food", name:"Canned Pet Food", img:"https://sc02.alicdn.com/kf/A12c3dcd344804fbc9ab5e3d9d456945eO.png",
       features:["Grain Free Recipe","Human Grade Meat","Rich in Taurine"],
       specs:"Complete meals | Premium protein sources | Soup & Broth toppers" },
 ];
